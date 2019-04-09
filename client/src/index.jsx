@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Button from '@material-ui/core/Button';
+import DashboardHeader from './components/DashboardHeader.jsx';
+import DashBody from './components/DashBody.jsx';
 
 
 class App extends React.Component {
@@ -9,12 +12,16 @@ class App extends React.Component {
     super(props)
   }
 
-
+componentDidMount(){
+  
+}
 
   render(){
     return(
       <div>
-        <h1> Lead the Deal ! </h1>
+        <DashboardHeader/>
+        <DashBody/>
+        
       </div>
     )
   }

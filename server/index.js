@@ -72,6 +72,10 @@ app.delete('/api/contacts/:id', (req, res) => {
 
 ///SERVER/////
 
+
+//// to clean: {force: true}
+
+
 db.sequelize
   .sync()
   .then(result => {
