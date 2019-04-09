@@ -8,6 +8,66 @@ import LeadInfo from './LeadInfo.jsx'
 import ButtonList from './ButtonList.jsx'
 import ContactList from './ContactList.jsx'
 
+class DashBody extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      leads: [{ name: 'patrick ryan', company: 'zlien' , id: 1}, { name: 'winntana B.', company: 'Operation Spark' , id:2}, { name: 'arnulfo Man', company: 'guitar' }],
+      currentLead: {},
+      selectedView: null,
+      uploaded: [{ name: 'patrick ryan', company: 'zlien' , id:1 }, { name: 'winntana B.', company: 'Operation Spark', id:2 }, { name: 'arnulfo Man', company: 'guitar', id:3 }],
+      purchased: [{ name: 'patrick ryan', company: 'zlien', id:1 }, { name: 'winntana B.', company: 'Operation Spark' , id:2}, { name: 'arnulfo Man', company: 'guitar', id:3 }],
+      contact: null,
+    };
+    const { classes } = props;
+    DashBody.propTypes = {
+      classes: PropTypes.object.isRequired,
+    };
+    this.selectView = this.selectView.bind(this);
+    this.selectContact = this.selectContact.bind(this);
+    this.searchContact = this.searchContact.bind(this);
+  }
+
+selectView(button){
+  console.log(button)
+  this.setState({selectedView: button})
+}
+
+selectContact(contact){
+  //pull contact data from server.
+
+  // this.setState({contact: contact})
+}
+searchContact(event){
+console.log('searched for contact!')
+console.log(event)
+  event.preventDefault();
+}
+
+
+render(){
+  return (
+    <div>
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <ButtonList selectView={this.selectView}/>
+          <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
+            selectedView={this.state.selectedView} selectContact={this.selectContact} searchContact={this.searchContact}/>
+        </Grid>
+        <Grid item xs={8}>
+          <LeadInfo />
+        </Grid>
+      </Grid>
+    </div>
+  );
+}
+
+
+
+
+
+
+}
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -19,26 +79,5 @@ const styles = theme => ({
   },
 });
 
-function AutoGrid(props) {
-  const { classes } = props;
 
-  return (
-    <div className={classes.root}>
-      <Grid container spacing={24}>
-        <Grid item xs>
-          <ButtonList/>
-          <ContactList/>
-        </Grid>
-        <Grid item xs={8}>
-          <LeadInfo/>
-        </Grid>
-      </Grid>
-    </div>
-  );
-}
-
-AutoGrid.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(AutoGrid);
+export default withStyles(styles)(DashBody);
