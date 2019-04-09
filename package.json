@@ -1,0 +1,38 @@
+{
+  "name": "lead-the-deal",
+  "version": "1.0.0",
+  "description": "lead generator for sales",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "react-dev": "webpack --config webpack.config.js --mode development --watch",
+    "server-dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asyncorswim/lead-the-deal.git"
+  },
+  "author": "Winntana Beyene, Patrick Ryan, Arnulfo Manriquez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asyncorswim/lead-the-deal/issues"
+  },
+  "homepage": "https://github.com/asyncorswim/lead-the-deal#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
