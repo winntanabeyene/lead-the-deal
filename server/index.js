@@ -41,7 +41,7 @@ db.User.findAll()
 app.get('/api/users/:id', (req, res) => {
 
 
-  
+
 
 
 })
@@ -58,7 +58,6 @@ app.get('/api/users/:id/purchased_contacts', (req, res) => {
   db.purchasedContacts(function (contacts) {
     res.send(contacts)
   }, userId)
-
 
 
 })

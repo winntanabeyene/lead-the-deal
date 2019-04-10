@@ -58,6 +58,7 @@ const Contact = sequelize.define('contact', {
   name: Sequelize.STRING,
   position: Sequelize.STRING,
   company: Sequelize.STRING,
+  industry: Sequelize.STRING,
   phone: Sequelize.STRING,
   email: Sequelize.STRING,
   Address: Sequelize.STRING,
@@ -92,6 +93,8 @@ const Purchase = sequelize.define('purchase', {
   }
 })
 
+User.hasMany(Contact, {as: 'Uploads'});
+Contact.belongsTo(User);
 User.belongsToMany(Contact, {as: 'Contacts', through: {model: Purchase, unique: false}, foreignKey: 'user_id'});
 Contact.belongsToMany(User, {as: 'Users', through: {model: Purchase, unique: false}, foreignKey: 'contact_id'});
 
