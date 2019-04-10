@@ -47,10 +47,10 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
     return (
       <div>
         <form onSubmit={()=>{searchContact(event)}}>
-        <Input placeholder="Name"></Input>
-        <Input placeholder="Industry"></Input>
-        <Input placeholder="Company"></Input>
-        <Input placeholder="City"></Input>
+          <Input placeholder="Name" fullWidth={true}></Input>
+          <Input placeholder="Industry" fullWidth={true}></Input>
+          <Input placeholder="Company" fullWidth={true}></Input>
+          <Input placeholder="City" fullWidth={true}></Input>
         <div>
             <Input type="submit" value="SEARCH"/>
         </div>
