@@ -42,11 +42,8 @@ const User = sequelize.define('user', {
 })
 
 
-//TODO: Add uploaded by as foreign key from user parent key
 //TODO: veryify isEmail true, maybe is Phone number true (sequelize docs)
 
-
-//name, position, company, phone, email, address
 
 const Contact = sequelize.define('contact', {
   id: {
