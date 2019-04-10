@@ -134,7 +134,7 @@ app.delete('/api/contacts/:id', (req, res) => {
 
 
 db.sequelize
-  .sync({force: true})
+  .sync()
   .then(result => {
     console.log('succesfully connected to database', result);
   })
