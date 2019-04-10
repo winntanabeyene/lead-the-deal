@@ -35,16 +35,12 @@ class DashBody extends React.Component {
   }
 
 selectView(button){
-  console.log(button)
   this.setState({selectedView: button})
-  // axios.get('/')
-  // this.setState({contactList: })
 }
 
 uploadedView(){
   axios.get(`/api/users/:${'userId'}/uploaded_contacts`)
     .then((uploadedContacts)=>{
-      console.log(uploadedContacts)
       this.setState({uploaded: uploadedContacts.data, selectedView: 'uploaded'})
     })
 }
@@ -56,9 +52,7 @@ purchasedView(){
 }
 
 selectContact(contactId, list){
-  console.log(this.state[list])
   const contact = this.state[list].filter((contact)=> contact.id === contactId)[0]
-  console.log(contact)
   this.setState({currentLead: contact})
 
   // axios.get(`/api/contacts/:${contactId}`)
@@ -70,7 +64,7 @@ selectContact(contactId, list){
 }
 searchContact(e){
   e.preventDefault();
-  console.log(e.target.value)
+  console.log(e.target)
 console.log('searched for contact!')
 
 }
