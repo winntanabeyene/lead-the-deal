@@ -8,6 +8,7 @@ import LeadInfo from './LeadInfo.jsx'
 import ButtonList from './ButtonList.jsx'
 import ContactList from './ContactList.jsx'
 
+
 class DashBody extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +18,7 @@ class DashBody extends React.Component {
       selectedView: null,
       uploaded: [{ name: 'patrick ryan', company: 'zlien' , id:1 }, { name: 'winntana B.', company: 'Operation Spark', id:2 }, { name: 'arnulfo Man', company: 'guitar', id:3 }],
       purchased: [{ name: 'patrick ryan', company: 'zlien', id:1 }, { name: 'winntana B.', company: 'Operation Spark' , id:2}, { name: 'arnulfo Man', company: 'guitar', id:3 }],
+      currentLead: {name: 'patrick Ryan', company: 'zlien', role: 'manager', phoneNumber: '504-710-9310', email: 'Patrickry07@gmail.com', city: 'New Orleans', state: 'Louisiana'},
       contact: null,
     };
     const { classes } = props;
@@ -55,7 +57,7 @@ render(){
             selectedView={this.state.selectedView} selectContact={this.selectContact} searchContact={this.searchContact}/>
         </Grid>
         <Grid item xs={8}>
-          <LeadInfo />
+          <LeadInfo currentLead={this.state.currentLead}/>
         </Grid>
       </Grid>
     </div>
