@@ -18,7 +18,7 @@ class FormView extends React.Component {
       uploadPhone: '',
       uploadEmail: '',
       uploadAddress: '',
-      searchName: 'hello',
+      searchName: '',
       searchCompany: '',
       searchIndustry: '',
       searchPosition: '',
@@ -32,51 +32,78 @@ class FormView extends React.Component {
   handleSearch(event) {
     event.preventDefault();
     console.log(this.query)
+    this.setState({
+      searchName: '',
+      searchCompany: '',
+      searchIndustry: '',
+      searchPosition: '',
+      searchAddress: '',
+    })
   }
   handleUpload(){
     event.preventDefault();
     console.log(this.upload)
+    this.setState({
+      uploadName: '',
+      uploadCompany: '',
+      uploadIndustry: '',
+      uploadPosition: '',
+      uploadPhone: '',
+      uploadEmail: '',
+      uploadAddress: '',
+    })
   }
 
   // SEARCH FORM FUNCTIONS BELOW ------------------------------------------------------------ 
   searchName(name){
-    console.log(name, this.query)
+    this.setState({searchName: name})
     this.query.name = name;
   }
   searchCompany(company){
+    this.setState({searchCompany: company})
     this.query.company = company;
   }
   searchIndustry(industry){
+    this.setState({searchIndustry: industry})
     this.query.industry = industry;
   }
   searchPosition(position){
+    this.setState({searchPosition: position})
     this.query.position = position;
   }
   searchAddress(address){
+    this.setState({searchAddress: address})
     this.query.address = address
   }
 
 
   // THE FUNCTIONS FOR GRABBING DATA FROM THE UPLOAD FORM BELOW -----------------------------
   uploadName(name){
+    this.setState({uploadName: name})
     this.upload.name = name;
   }
   uploadCompany(company){
+    this.setState({uploadCompany: company})
     this.upload.company = company;
   }
   uploadIndustry(industry){
+    this.setState({uploadIndustry: industry})
     this.upload.industry = industry
   }
   uploadPosition(position){
+    this.setState({uploadPosition: position})
     this.upload.position = position;
   }
   uploadPhone(phone){
+    this.setState({uploadPhone: phone})
     this.upload.phone = phone
   }
   uploadEmail(email){
+    this.setState({uploadEmail: email})
     this.upload.email = email;
   }
   uploadAddress(address){
+    this.setState({uploadAddress: address})
     this.upload.address = address
   }
   //UPLOAD FORM FUNCTIONS ABOVE -------------------------------------------
@@ -86,13 +113,13 @@ class FormView extends React.Component {
       return (
         <div>
           <form onSubmit={()=>{this.handleUpload(event)}}>
-            <Input placeholder="First & Last Name" fullWidth={true} required={true} onChange={(event)=>{this.uploadName(event.target.value)}}></Input>
-            <Input placeholder="Company" fullWidth={true} required={true} onChange={(event)=>{this.uploadCompany(event.target.value)}}></Input>
-            <Input placeholder="Industry" fullWidth={true} required={true} onChange={(event)=>{this.uploadIndustry(event.target.value)}}></Input>
-            <Input placeholder="Position" fullWidth={true} required={true} onChange={(event)=>{this.uploadPosition(event.target.value)}}></Input>
-            <Input placeholder="Phone Number" fullWidth={true} required={true} onChange={(event)=>{this.uploadPhone(event.target.value)}}></Input>
-            <Input placeholder="Email" fullWidth={true} required={true} onChange={(event)=>{this.uploadEmail(event.target.value)}}></Input>
-            <Input placeholder="Address" fullWidth={true} required={true} onChange={(event)=>{this.uploadAddress(event.target.value)}}></Input>
+            <Input placeholder="First & Last Name" fullWidth={true} required={true} onChange={(event)=>{this.uploadName(event.target.value)}} value={this.state.uploadName}></Input>
+            <Input placeholder="Company" fullWidth={true} required={true} onChange={(event)=>{this.uploadCompany(event.target.value)}} value={this.state.uploadCompany}></Input>
+            <Input placeholder="Industry" fullWidth={true} required={true} onChange={(event)=>{this.uploadIndustry(event.target.value)}} value={this.state.uploadIndustry}></Input>
+            <Input placeholder="Position" fullWidth={true} required={true} onChange={(event)=>{this.uploadPosition(event.target.value)}} value={this.state.uploadPosition}></Input>
+            <Input placeholder="Phone Number" fullWidth={true} required={true} onChange={(event)=>{this.uploadPhone(event.target.value)}} value={this.state.uploadPhone}></Input>
+            <Input placeholder="Email" fullWidth={true} required={true} onChange={(event)=>{this.uploadEmail(event.target.value)}} value={this.state.uploadEmail}></Input>
+            <Input placeholder="Address" fullWidth={true} required={true} onChange={(event)=>{this.uploadAddress(event.target.value)}} value={this.state.uploadAddress}></Input>
             <div>
               <Input type="submit" value="Upload" />
             </div>
@@ -104,11 +131,11 @@ class FormView extends React.Component {
       return (
         <div>
           <form onSubmit={()=>{this.handleSearch(event)}}>
-            <Input placeholder="Name" fullWidth={true} onChange={(event)=>{this.searchName(event.target.value)}}></Input>
-            <Input placeholder="Company" fullWidth={true} onChange={(event)=>{this.searchCompany(event.target.value)}}></Input>
-            <Input placeholder="Industry" fullWidth={true} onChange={(event)=>{this.searchIndustry(event.target.value)}}></Input>
-            <Input placeholder="Position" fullWidth={true} onChange={(event)=>{this.searchPosition(event.target.value)}}></Input>
-            <Input placeholder="Address" fullWidth={true} onChange={(event)=>{this.searchAddress(event.target.value)}}></Input>
+            <Input placeholder="Name" fullWidth={true} onChange={(event)=>{this.searchName(event.target.value)}} value={this.state.searchName}></Input>
+            <Input placeholder="Company" fullWidth={true} onChange={(event) => { this.searchCompany(event.target.value) }} value={this.state.searchCompany}></Input>
+            <Input placeholder="Industry" fullWidth={true} onChange={(event)=>{this.searchIndustry(event.target.value)}} value={this.state.searchIndustry}></Input>
+            <Input placeholder="Position" fullWidth={true} onChange={(event)=>{this.searchPosition(event.target.value)}} value={this.state.searchPosition}></Input>
+            <Input placeholder="Address" fullWidth={true} onChange={(event)=>{this.searchAddress(event.target.value)}} value={this.state.searchAddress}></Input>
             <div>
               <Input type="submit" value="Search" />
             </div>
