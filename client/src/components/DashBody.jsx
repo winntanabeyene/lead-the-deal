@@ -32,6 +32,7 @@ class DashBody extends React.Component {
     this.searchContact = this.searchContact.bind(this);
     this.uploadedView = this.uploadedView.bind(this);
     this.purchasedView = this.purchasedView.bind(this);
+    this.uploadContact = this.uploadContact.bind(this);
   }
 
 selectView(button){
@@ -55,18 +56,25 @@ selectContact(contactId, list){
   const contact = this.state[list].filter((contact)=> contact.id === contactId)[0]
   this.setState({currentLead: contact})
 
-  // axios.get(`/api/contacts/:${contactId}`)
-  //   .then((contact)=>{
-  //     this.setState({contact: contact.data})
-
-  //   })
-
 }
-searchContact(e){
-  e.preventDefault();
-  console.log(e.target)
-console.log('searched for contact!')
 
+searchContact(query){
+  console.log(query)
+ axios.post('/api/search', query)
+  .then((results) => {
+    console.log(results)
+  }).catch((err) => {
+    console.log(err)
+  });
+}
+
+uploadContact(contact){
+  axios.post('/api/upload', contact)
+    .then((results) => {
+      console.log(results)
+    }).catch((err) => {
+      console.log(err)
+    });
 }
 
 
@@ -77,7 +85,8 @@ render(){
         <Grid item xs>
           <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView}/>
           <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
-            selectedView={this.state.selectedView} selectContact={this.selectContact} searchContact={this.searchContact}/>
+            selectedView={this.state.selectedView} selectContact={this.selectContact} 
+            searchContact={this.searchContact} uploadContact={this.uploadContact}/>
         </Grid>
         <Grid item xs={8}>
           <LeadInfo currentLead={this.state.currentLead}/>

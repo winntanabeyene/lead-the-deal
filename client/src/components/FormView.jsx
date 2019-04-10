@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 
+import axios from 'axios';
+
 
 class FormView extends React.Component {
   constructor(props) {
@@ -39,6 +41,7 @@ class FormView extends React.Component {
       searchPosition: '',
       searchAddress: '',
     })
+    this.props.searchContact(this.query)
   }
   handleUpload(){
     event.preventDefault();
@@ -52,6 +55,9 @@ class FormView extends React.Component {
       uploadEmail: '',
       uploadAddress: '',
     })
+    this.props.uploadContact(this.upload);
+    // props.searchContact(this.upload)
+    
   }
 
   // SEARCH FORM FUNCTIONS BELOW ------------------------------------------------------------ 
