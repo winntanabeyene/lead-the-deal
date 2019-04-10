@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 import DashboardHeader from './components/DashboardHeader.jsx';
 import DashBody from './components/DashBody.jsx';
-import SignIn from './components/SignIn.jsx';
-
+import SignIn from './components/Login.jsx';
+import Register from './components/Register.jsx';
 
 class App extends React.Component {
 
 
   constructor(props){
     super(props)
+    this.state = {
+      data:[<SignIn/>]
+    }
   }
 
 componentDidMount(){
@@ -20,9 +23,10 @@ componentDidMount(){
   render(){
     return(
       <div>
-        <DashboardHeader/>
-        <DashBody/>
+        {/* <DashboardHeader/>
+        <DashBody/> */}
         <SignIn/>
+        {/* <Register/> */}
       </div>
     )
   }
