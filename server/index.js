@@ -19,13 +19,52 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 /////USERS////////
 //////////////////
 
-app.get('api/users', (req, res) => {
+
+//////GET ALL USERS /////////////
+
+app.get('/api/users', (req, res) => {
+
+db.User.findAll()
+  .then((users) => {
+    res.send(users);
+  }).catch((err) => {
+    console.error(err)
+    res.send(err);
+  });
+
 
 })
+
+
+/////INDIVIDUAL USER INFO/////////////
 
 app.get('/api/users/:id', (req, res) => {
 
+
+  
+
+
 })
+
+
+
+app.get('/api/users/:id/uploaded_contacts', (req, res) => {
+
+
+
+
+})
+
+app.get('/api/users/:id/purchased_contacts', (req, res) => {
+
+
+
+
+})
+
+
+///////POST/UPDATE/DELETE USER////////////
+
 
 app.post('/api/users', (req, res) => {
 
@@ -44,7 +83,16 @@ app.delete('/api/users/:id', (req, res) => {
 ////// CONTACTS ////////
 ////////////////////////
 
-app.get('api/contacts', (req, res) => {
+app.get('/api/contacts', (req, res) => {
+
+  db.Contact.findAll()
+    .then((contacts) => {
+      res.send(contacts);
+    }).catch((err) => {
+      console.error(err)
+      res.send(err);
+    });
+
 
 })
 
@@ -77,7 +125,7 @@ app.delete('/api/contacts/:id', (req, res) => {
 
 
 db.sequelize
-  .sync()
+  .sync({force: true})
   .then(result => {
     console.log('succesfully connected to database', result);
   })

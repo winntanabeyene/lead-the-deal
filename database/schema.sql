@@ -36,3 +36,43 @@ USE lead_the_deal;
   VALUES
     ('chikfilley', 'Wintano Ballena');
 
+
+
+  INSERT into contacts
+    (name, position, company, phone, email, address)
+  VALUES
+    ('Pedro Navajas', 'CEO', 'Taco Enterprises', '504-678-2345', 'what@gmail.com', '2456 N Miro, New Orleans LA 70117');
+  INSERT into contacts
+    (name, position, company, phone, email, address)
+  VALUES
+    ('Harvey Sanders', 'CTO', 'Operation Spark', '504-234-5563', 'harvey@gmail.com', '2094 Columbus St, New Orleans La 28732');
+  INSERT into contacts
+    (name, position, company, phone, email, address)
+  VALUES
+    ('Bruce Lee', 'Ninja Master', 'Hollywood', '845-675-6765', 'bruce@lee.com', '234 Sunset Blvd, Los Angeles CA 2345');
+  INSERT into contacts
+    (name, position, company, phone, email, address)
+  VALUES
+    ('Luke Skywalker', 'Jedi', 'The Republic', '210-234-5678', 'lukie45@aol.com', '234 Tatooni, Galaxy Far Away');
+  INSERT into contacts
+    (name, position, company, phone, email, address)
+  VALUES
+    ('Billy Elliot', 'Ballet Dancer', 'London Ballet', '232-232-3322', 'billy@yahoo.com', '221B Baker Street, London');
+
+
+
+INSERT INTO purchases
+  (user_id, contact_id)
+values(1, 3);
+
+INSERT INTO purchases
+  (user_id, contact_id)
+values(1, 2);
+
+INSERT INTO purchases
+  (user_id, contact_id)
+values(2, 1);
+
+INSERT INTO purchases
+  (user_id, contact_id)
+values(2, 4);
