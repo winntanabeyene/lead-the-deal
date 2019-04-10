@@ -67,10 +67,11 @@ selectContact(contactId, list){
   //   })
 
 }
-searchContact(){
+searchContact(e){
+  e.preventDefault();
+  console.log(e.target.value)
 console.log('searched for contact!')
-// console.log(event)
-  // event.preventDefault();
+
 }
 
 
