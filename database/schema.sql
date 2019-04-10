@@ -39,25 +39,25 @@ USE lead_the_deal;
 
 
   INSERT into contacts
-    (name, position, company, phone, email, address)
+    (name, position, company, industry, phone, email, address, userId)
   VALUES
-    ('Pedro Navajas', 'CEO', 'Taco Enterprises', '504-678-2345', 'what@gmail.com', '2456 N Miro, New Orleans LA 70117');
+    ('Pedro Navajas', 'CEO', 'Taco Enterprises', 'food', '504-678-2345', 'what@gmail.com', '2456 N Miro, New Orleans LA 70117', 1);
   INSERT into contacts
-    (name, position, company, phone, email, address)
+    (name, position, company, industry, phone, email, address, userId)
   VALUES
-    ('Harvey Sanders', 'CTO', 'Operation Spark', '504-234-5563', 'harvey@gmail.com', '2094 Columbus St, New Orleans La 28732');
+    ('Harvey Sanders', 'CTO', 'Operation Spark', 'software', '504-234-5563', 'harvey@gmail.com', '2094 Columbus St, New Orleans La 28732', 1);
   INSERT into contacts
-    (name, position, company, phone, email, address)
+    (name, position, company, industry, phone, email, address, userId)
   VALUES
-    ('Bruce Lee', 'Ninja Master', 'Hollywood', '845-675-6765', 'bruce@lee.com', '234 Sunset Blvd, Los Angeles CA 2345');
+    ('Bruce Lee', 'Ninja Master', 'Hollywood', 'movies', '845-675-6765', 'bruce@lee.com', '234 Sunset Blvd, Los Angeles CA 2345', 2);
   INSERT into contacts
-    (name, position, company, phone, email, address)
+    (name, position, company, industry, phone, email, address, userId)
   VALUES
-    ('Luke Skywalker', 'Jedi', 'The Republic', '210-234-5678', 'lukie45@aol.com', '234 Tatooni, Galaxy Far Away');
+    ('Luke Skywalker', 'Jedi', 'The Republic', 'freedom', '210-234-5678', 'lukie45@aol.com', '234 Tatooni, Galaxy Far Away', 2);
   INSERT into contacts
-    (name, position, company, phone, email, address)
+    (name, position, company, industry, phone, email, address, userId)
   VALUES
-    ('Billy Elliot', 'Ballet Dancer', 'London Ballet', '232-232-3322', 'billy@yahoo.com', '221B Baker Street, London');
+    ('Billy Elliot', 'Ballet Dancer', 'London Ballet', 'art', '232-232-3322', 'billy@yahoo.com', '221B Baker Street, London', 2);
 
 
 
