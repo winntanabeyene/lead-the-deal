@@ -49,6 +49,11 @@ app.get('/api/users/:id', (req, res) => {
 
 
 app.get('/api/users/:id/uploaded_contacts', (req, res) => {
+  let userId = req.path.split('/')[3].slice(1)
+  userId = userId || 1
+  db.uploadedContacts(function(contacts){
+res.send(contacts)
+  }, userId)
 
 
 
@@ -56,7 +61,11 @@ app.get('/api/users/:id/uploaded_contacts', (req, res) => {
 })
 
 app.get('/api/users/:id/purchased_contacts', (req, res) => {
-
+  let userId = req.path.split('/')[3].slice(1)
+  userId = userId || 1
+  db.purchasedContacts(function (contacts) {
+    res.send(contacts)
+  }, userId)
 
 
 
