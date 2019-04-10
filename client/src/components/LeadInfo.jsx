@@ -5,14 +5,14 @@ import Grid from '@material-ui/core/Grid';
 
 
 const Practice = ({currentLead}) => {
-  console.log(currentLead)
     return (
       <div>
         <div>{currentLead.name}</div>
-        <div>{currentLead.industry}</div>
-        <div>{currentLead.role}</div>
-        <div>{currentLead.phoneNumber}</div>
+        <div>{currentLead.company}</div>
+        <div>{currentLead.position}</div>
+        <div>{currentLead.phone}</div>
         <div>{currentLead.email}</div>
+        <div>{currentLead.Address}</div>
       </div>
     )
 }

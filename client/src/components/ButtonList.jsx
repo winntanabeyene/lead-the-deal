@@ -9,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import NavigationIcon from '@material-ui/icons/Navigation';
 
 
-const ButtonList = ({selectView}) => {
+const ButtonList = ({selectView, uploadedView, purchasedView }) => {
   const styles = theme => ({
     margin: {
       margin: theme.spacing.unit,
@@ -24,13 +24,13 @@ const ButtonList = ({selectView}) => {
       <div>
       <h3>{'YOUR COMPANY HERE'}</h3>
       </div>
-      <div onClick={()=>{selectView('uploaded')}}>
+      <div onClick={()=>{uploadedView()}}>
         <Button size="medium">
           Uploaded Contacts
         </Button>
       </div>
       <div>
-        <Button size="medium" onClick={() => {selectView('purchased')}}>
+        <Button size="medium" onClick={() => {purchasedView()}}>
         Purchased Contacts
       </Button>
       </div>

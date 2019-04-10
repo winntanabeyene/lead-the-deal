@@ -100,8 +100,52 @@ Contact.belongsToMany(User, {as: 'Users', through: {model: Purchase, unique: fal
 
 
 
+const uploadedContacts = function(callback, id){
+}
+
+
+const purchasedContacts = function (callback, id) {
+  if (id === 'userId') {
+    id = 1
+  }
+  Purchase.findAll({
+    where: {
+      user_id: id
+    }
+  })
+    .then((contacts) => {
+      const purchasedArr = contacts.map((contact)=> contact.contact_id)
+      
+      return contacts.map((contact) => contact.contact_id)
+    })
+      .then((contactIds)=>{
+        return Contact.findAll({
+          where:{
+            id: contactIds
+          }
+        })
+      })
+      .then((purchased)=>{
+        return callback(purchased)
+      })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+
+
+
+
+
+
+
+
+
 
 module.exports.sequelize = sequelize;
 module.exports.User = User;
 module.exports.Contact = Contact;
 module.exports.Purchase = Purchase;
+module.exports.uploadedContacts = uploadedContacts;
+module.exports.purchasedContacts = purchasedContacts

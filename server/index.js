@@ -49,9 +49,8 @@ app.get('/api/users/:id', (req, res) => {
 
 
 app.get('/api/users/:id/uploaded_contacts', (req, res) => {
-
-
-  db.User.findAll({where: {id: req.params.id}})
+  req.params.id = 1;
+  db.User.findAll({ where: { id: req.params.id } })
     .then((result) => {
       result[0].getUploads()
         .then((result) => {
@@ -66,7 +65,10 @@ app.get('/api/users/:id/uploaded_contacts', (req, res) => {
 })
 
 app.get('/api/users/:id/purchased_contacts', (req, res) => {
-
+  let userId = req.params.id.slice(1)
+  db.purchasedContacts(function (contacts) {
+    res.send(contacts)
+  }, userId)
 
 
 })
