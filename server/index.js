@@ -41,7 +41,7 @@ db.User.findAll()
 app.get('/api/users/:id', (req, res) => {
 
 
-  
+
 
 
 })
@@ -51,12 +51,21 @@ app.get('/api/users/:id', (req, res) => {
 app.get('/api/users/:id/uploaded_contacts', (req, res) => {
 
 
-
+  db.User.findAll({where: {id: req.params.id}})
+    .then((result) => {
+      result[0].getUploads()
+        .then((result) => {
+          res.send(result);
+        }).catch((err) => {
+          res.send('there was an error locating uploaded users');
+        });
+    }).catch((err) => {
+      res.send(err);
+    });
 
 })
 
 app.get('/api/users/:id/purchased_contacts', (req, res) => {
-
 
 
 
