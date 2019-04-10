@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
+import DashboardHeader from './components/DashboardHeader.jsx';
+import DashBody from './components/DashBody.jsx';
+import SignIn from './components/SignIn.jsx';
 
 
 class App extends React.Component {
@@ -12,27 +13,16 @@ class App extends React.Component {
     super(props)
   }
 
-
+componentDidMount(){
+  
+}
 
   render(){
     return(
       <div>
-        <h1> Lead the Deal ! </h1>
-        <form action="/login" method="post">
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username"/>
-    </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password"/>
-    </div>
-    <div>
-        <Button>LogIn</Button>
-        <Button>Register</Button>
-    </div>
-</form>
-      
+        <DashboardHeader/>
+        <DashBody/>
+        <SignIn/>
       </div>
     )
   }
