@@ -33,12 +33,18 @@ class DashBody extends React.Component {
 selectView(button){
   console.log(button)
   this.setState({selectedView: button})
+  // axios.get('/')
+  // this.setState({contactList: })
 }
 
-selectContact(contact){
-  //pull contact data from server.
+selectContact(contactId){
+  console.log(contactId)
+  axios.get(`/api/contacts/:${contactId}`)
+    .then((contact)=>{
+      this.setState({contact: contact.data})
 
-  // this.setState({contact: contact})
+    })
+
 }
 searchContact(event){
 console.log('searched for contact!')

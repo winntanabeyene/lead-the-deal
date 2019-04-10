@@ -1,6 +1,10 @@
 const Sequelize = require('sequelize');
-const {username, password, host} = require('../config')
+require('dotenv').config()
 
+// const {username, password, host} = require('../config')
+const username = process.env.username
+const password = process.env.password
+const host = process.env.host
 
 
 const sequelize = new Sequelize('lead_the_deal', username, password, {
