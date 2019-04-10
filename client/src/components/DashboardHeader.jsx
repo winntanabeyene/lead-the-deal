@@ -27,7 +27,7 @@ function DashboardHeader(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <div>{'42                    '}</div>
+          <div>{'Number of Points'}</div>
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Lead the Deal
           </Typography>

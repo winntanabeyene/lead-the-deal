@@ -35,6 +35,11 @@ const ButtonList = ({selectView}) => {
       </Button>
       </div>
       <div>
+        <Button size="medium" onClick={() => { selectView('upload') }}>
+          Upload Contact
+        </Button>
+      </div>
+      <div>
       <Button size="medium" onClick={()=>{selectView('search')}}>
         Search for Contacts
       </Button>
