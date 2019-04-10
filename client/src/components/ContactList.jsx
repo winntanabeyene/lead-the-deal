@@ -15,11 +15,11 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
         <div className="lead-header lead-row">
           Name, Company
         </div>
-        {uploaded.map((lead) => {
+        {uploaded.map((contact) => {
           return (
-            <div>
-            <Button size="small" onClick={() => { selectContact('uploaded') }}>
-              {lead.name}, {lead.company}
+            <div key={contact.id}>
+            <Button size="small" onClick={() => { selectContact(contact.id, 'uploaded') }}>
+              {contact.name}, {contact.company}
             </Button>
             </div>
           )

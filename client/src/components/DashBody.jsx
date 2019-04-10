@@ -44,7 +44,8 @@ selectView(button){
 uploadedView(){
   axios.get(`/api/users/:${'userId'}/uploaded_contacts`)
     .then((uploadedContacts)=>{
-      this.setState({uploaded: uploadedContacts.data})
+      console.log(uploadedContacts)
+      this.setState({uploaded: uploadedContacts.data, selectedView: 'uploaded'})
     })
 }
 purchasedView(){
