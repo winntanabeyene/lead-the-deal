@@ -23,8 +23,8 @@ componentDidMount(){
   render(){
     return(
       <div>
-        {/* <DashboardHeader/>
-        <DashBody/> */}
+        <DashboardHeader/>
+        <DashBody/>
         <SignIn/>
         {/* <Register/> */}
       </div>
