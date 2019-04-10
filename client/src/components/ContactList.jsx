@@ -15,11 +15,11 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
         <div className="lead-header lead-row">
           Name, Company
         </div>
-        {uploaded.map((lead) => {
+        {uploaded.map((contact) => {
           return (
-            <div>
-            <Button size="small" onClick={() => { selectContact('uploaded') }}>
-              {lead.name}, {lead.company}
+            <div key={contact.id}>
+            <Button size="small" onClick={() => { selectContact(contact.id, 'uploaded') }}>
+              {contact.name}, {contact.company}
             </Button>
             </div>
           )
@@ -35,11 +35,11 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
           <div className="lead-header lead-row">
             Name, Company
         </div>
-          {purchased.map((lead) => {
+          {purchased.map((contact) => {
             return (
-              <div>
-              <Button size="small" onClick={() => { selectContact('purchased') }}>
-                {lead.name}, {lead.company}
+              <div key={contact.id}>
+              <Button size="small" onClick={() => { selectContact(contact.id, 'purchased')}}>
+                {contact.name}, {contact.company}
               </Button>
               </div>
             )
@@ -53,15 +53,14 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
       <div>
         <form onSubmit={() => { searchContact(event) }}>
           <Input placeholder="First & Last Name" fullWidth={true} required={true}></Input>
-          <Input placeholder="Industry" fullWidth={true} required={true}></Input>
           <Input placeholder="Company" fullWidth={true} required={true}></Input>
-          <Input placeholder="Role" fullWidth={true} required={true}></Input>
+          <Input placeholder="Industry" fullWidth={true} required={true}></Input>
+          <Input placeholder="Poisition" fullWidth={true} required={true}></Input>
           <Input placeholder="Phone Number" fullWidth={true} required={true}></Input>
           <Input placeholder="Email" fullWidth={true} required={true}></Input>
-          <Input placeholder="City" fullWidth={true} required={true}></Input>
-          <Input placeholder="State" fullWidth={true} required={true}></Input>
+          <Input placeholder="Address" fullWidth={true} required={true}></Input>
           <div>
-            <Input type="submit" value="Upload" />
+            <Input type="submit" value="Upload"/>
           </div>
         </form>
       </div>
@@ -72,11 +71,12 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
       <div>
         <form onSubmit={()=>{searchContact(event)}}>
           <Input placeholder="Name" fullWidth={true}></Input>
-          <Input placeholder="Industry" fullWidth={true}></Input>
           <Input placeholder="Company" fullWidth={true}></Input>
-          <Input placeholder="City" fullWidth={true}></Input>
+          <Input placeholder="Industry" fullWidth={true}></Input>
+          <Input placeholder="Position" fullWidth={true}></Input>
+          <Input placeholder="Address" fullWidth={true}></Input>
         <div>
-            <Input type="submit" value="SEARCH"/>
+            <Input type="submit" value="Search" onChange={searchContact(event)}/>
         </div>
         </form>
       </div>
