@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-// const {username, password, host} = require('../config')
 require('dotenv').config();
 const username = process.env.username || "root";
 const password = process.env.password;
@@ -9,6 +8,7 @@ const sequelize = new Sequelize('lead_the_deal', username, password, {
   dialect: 'mysql',
   host: host,
 });
+
 
 ///////////////////
 /////MODELS ///////
@@ -38,6 +38,15 @@ const User = sequelize.define('user', {
   updatedAt: {
     type: Sequelize.DATE,
     defaultValue: sequelize.fn('NOW')
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  last_login: Sequelize.DATE,
+  status: {
+    type: Sequelize.ENUM('active', 'inactive'),
+    defaultValue: 'active'
   }
 })
 
@@ -90,15 +99,20 @@ const Purchase = sequelize.define('purchase', {
   }
 })
 
+
+//////////////////////
+/////RELATIONSHIPS////
+//////////////////////
+
 User.hasMany(Contact, {as: 'Uploads'});
 Contact.belongsTo(User);
 User.belongsToMany(Contact, {as: 'Contacts', through: {model: Purchase, unique: false}, foreignKey: 'user_id'});
 Contact.belongsToMany(User, {as: 'Users', through: {model: Purchase, unique: false}, foreignKey: 'contact_id'});
 
 
-
-const uploadedContacts = function(callback, id){
-}
+///////////////////////////////////////////
+/////////////HELPER FUNCTIONS//////////////
+//////////////////////////////////////////
 
 
 const purchasedContacts = function (callback, id) {
@@ -131,18 +145,13 @@ const purchasedContacts = function (callback, id) {
 }
 
 
-
-
-
-
-
-
-
-
+////////////////////
+///// EXPORTS //////
+////////////////////
 
 module.exports.sequelize = sequelize;
 module.exports.User = User;
 module.exports.Contact = Contact;
 module.exports.Purchase = Purchase;
-module.exports.uploadedContacts = uploadedContacts;
 module.exports.purchasedContacts = purchasedContacts
+
