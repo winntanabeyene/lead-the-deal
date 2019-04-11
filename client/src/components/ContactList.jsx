@@ -6,8 +6,10 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 
+import FormView from './FormView.jsx'
 
-const ContactList = ({uploaded, purchased, selectedView, selectContact, searchContact}) => {
+
+const ContactList = ({uploaded, purchased, selectedView, selectContact, searchContact, uploadContact}) => {
   if (selectedView === 'uploaded'){
     return (
       <div>
@@ -29,6 +31,7 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
     )
   }
   else if (selectedView === 'purchased'){
+    console.log(searchContact)
     return (
       <div>
         {/* <Paper> */}
@@ -50,36 +53,12 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
   }
   else if (selectedView === 'upload') {
     return (
-      <div>
-        <form onSubmit={() => { searchContact(event) }}>
-          <Input placeholder="First & Last Name" fullWidth={true} required={true}></Input>
-          <Input placeholder="Company" fullWidth={true} required={true}></Input>
-          <Input placeholder="Industry" fullWidth={true} required={true}></Input>
-          <Input placeholder="Poisition" fullWidth={true} required={true}></Input>
-          <Input placeholder="Phone Number" fullWidth={true} required={true}></Input>
-          <Input placeholder="Email" fullWidth={true} required={true}></Input>
-          <Input placeholder="Address" fullWidth={true} required={true}></Input>
-          <div>
-            <Input type="submit" value="Upload"/>
-          </div>
-        </form>
-      </div>
+        <FormView selectedView={selectedView} uploadContact={uploadContact}/>
     )
   }
   else if (selectedView === 'search'){
     return (
-      <div>
-        <form onSubmit={()=>{searchContact(event)}}>
-          <Input placeholder="Name" fullWidth={true}></Input>
-          <Input placeholder="Company" fullWidth={true}></Input>
-          <Input placeholder="Industry" fullWidth={true}></Input>
-          <Input placeholder="Position" fullWidth={true}></Input>
-          <Input placeholder="Address" fullWidth={true}></Input>
-        <div>
-            <Input type="submit" value="Search" onChange={searchContact(event)}/>
-        </div>
-        </form>
-      </div>
+      <FormView selectedView='search' searchContact={searchContact}/>
     )
   }
   else{

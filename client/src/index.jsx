@@ -11,9 +11,7 @@ class App extends React.Component {
 
   constructor(props){
     super(props)
-    this.state = {
-      data:[<SignIn/>]
-    }
+  
   }
 
 componentDidMount(){
@@ -23,10 +21,10 @@ componentDidMount(){
   render(){
     return(
       <div>
-        {/* <DashboardHeader/>
-        <DashBody/> */}
-        {/* <SignIn/> */}
-        <Register/>
+        <DashboardHeader/>
+        <DashBody/>
+        <SignIn/>
+        {/* <Register/> */}
       </div>
     )
   }
