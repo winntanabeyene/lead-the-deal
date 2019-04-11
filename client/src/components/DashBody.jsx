@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import LeadInfo from './LeadInfo.jsx'
 import ButtonList from './ButtonList.jsx'
 import ContactList from './ContactList.jsx'
+import SearchView from './SearchView.jsx'
 
 import axios from 'axios';
 
@@ -22,6 +23,8 @@ class DashBody extends React.Component {
       purchased: [],
       currentLead: {},
       contact: null,
+      searchedContacts: [],
+      contactView: null
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -52,17 +55,33 @@ purchasedView(){
     })
 }
 
-selectContact(contactId, list){
-  const contact = this.state[list].filter((contact)=> contact.id === contactId)[0]
-  this.setState({currentLead: contact})
+selectContact(contactId, list, view){
+  if (view === 'access'){
+    const contact = this.state[list].filter((contact)=> contact.id === contactId)[0]
+    this.setState({
+      currentLead: contact,
+      contactView: 'access'
+    })
+  }
+  else{
+    const contact = this.state.searchedContacts.filter((contact) => contact.id === contactId)[0]
+    this.setState({
+      currentLead: contact,
+      contactView: 'limited'
+    })
+  }
 
 }
 
 searchContact(query){
   console.log(query)
  axios.post('/api/search', query)
-  .then((results) => {
-    console.log(results)
+  .then((contacts) => {
+    console.log(contacts)
+    this.setState({
+      searchedContacts: contacts.data,
+      selectedView: 'searched',
+    })
   }).catch((err) => {
     console.log(err)
   });
@@ -87,9 +106,11 @@ render(){
           <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
             selectedView={this.state.selectedView} selectContact={this.selectContact} 
             searchContact={this.searchContact} uploadContact={this.uploadContact}/>
+          <SearchView searchedContacts={this.state.searchedContacts} selectedView={this.state.selectedView} selectContact={this.selectContact}/>
+
         </Grid>
         <Grid item xs={8}>
-          <LeadInfo currentLead={this.state.currentLead}/>
+          <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView}/>
         </Grid>
       </Grid>
     </div>

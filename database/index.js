@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op
+
 // const {username, password, host} = require('../config')
 require('dotenv').config();
 const username = process.env.username || "root";
