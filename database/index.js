@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const bcrypt    = require('bcrypt');
 require('dotenv').config();
 const username = process.env.username || "root";
 const password = process.env.password;
@@ -48,7 +49,29 @@ const User = sequelize.define('user', {
     type: Sequelize.ENUM('active', 'inactive'),
     defaultValue: 'active'
   }
+}, {
+    hooks: {
+      beforeCreate: (user) => {
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(user.password, salt);
+      }
+    },
+    instanceMethods: {
+      isValidPassword(password) {
+        return bcrypt.compare(password, this.password);
+      }
+    }
 })
+
+// User.beforeCreate((user, options) => {
+//   return bcrypt.hash(user.password, 10)
+//           .then(hash => {
+//             user.password = hash;
+//           })
+//           .catch(err => {
+//             throw new Error()
+//           })
+// })
 
 
 //TODO: veryify isEmail true, maybe is Phone number true (sequelize docs)

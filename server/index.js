@@ -5,7 +5,8 @@ const axios      = require('axios');
 const db         = require('../database/index');
 const session    = require('express-session');
 const passport   = require('passport');
-const exphbs     = require('express-handlebars');
+const bcrypt     = require('bcrypt');
+const authRoutes = require('./routes/auth')
 
 
 const app = express();
@@ -17,9 +18,12 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 ///////////// AUTHENTICATION ////////////////////////////
 //////////////////////////////////////////////////////
 
-app.use(session({secret: 'cat', resave: true, saveUninitialized: true}));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(session({secret: 'cat', resave: false, saveUninitialized: false}));
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+
+app.use('/api/auth', authRoutes);
 
 
 
@@ -98,7 +102,7 @@ app.post('/api/users', (req, res) => {
 
 })
 
-app.put('/api/users/:id', (req, res) => {
+app.patch('/api/users/:id', (req, res) => {
 
 })
 
