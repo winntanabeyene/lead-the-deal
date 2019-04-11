@@ -131,17 +131,27 @@ app.post('/api/upload', (req, res)=>{
     console.log(err)
   })
 })
+///////////////////////// PURCHASE CONTACT HANDLER ///////////////////////////////////
 
+app.post('/api/contact_purchase/:contactId', (req, res)=>{
+  const contactId = req.params.contactId.slice(1)
+  db.Purchase.create({
+    user_id: 1, /////------------------------------------------------------------passport todo
+    contact_id: contactId,
+  })
+  .then((result)=>{
+    console.log(result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
 
 
 
 /////INDIVIDUAL USER INFO/////////////
 
 app.get('/api/users/:id', (req, res) => {
-
-
-
-
 
 })
 
