@@ -2,15 +2,41 @@ const db = require('../database/index');
 const jwt = require('jsonwebtoken');
 
 
-
-
-exports.signin = function() {
+exports.signin = async function(req, res, next) {
 
   //finding a user
   //check if their password matches what was sent to the server
   //if it all matches
     //log them in
 
+    try {
+    
+      let user = await db.User.findOne({where: {username: req.body.username}})
+
+      let {id, username} = user;
+
+      let isMatch = await user.isValidPassword(req.body.password);
+      
+    if (isMatch){
+      let token = jwt.sign({
+        id,
+        username
+      }, process.env.SECRET);
+      
+      return res.status(200).json({
+        id,
+        username,
+        token
+      });
+    } else{
+      return next({
+        status: 400,
+        message: 'Invalid username/password'
+      })
+    }
+  } catch(err){
+    return next({status: 400, message: 'Invalid username/password'});
+  }
 
 
 }

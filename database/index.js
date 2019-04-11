@@ -53,21 +53,18 @@ const User = sequelize.define('user', {
     defaultValue: 'active'
   }
 }, {
-    timestamps: false,
     hooks: {
       beforeCreate: (user) => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(user.password, salt);
       }
-    },
-    instanceMethods: {
-      isValidPassword(password) {
-        return bcrypt.compare(password, this.password);
-      }
     }
 })
 
 
+User.prototype.isValidPassword = function(password){
+  return bcrypt.compare(password, this.password)
+}
 
 //TODO: veryify isEmail true, maybe is Phone number true (sequelize docs)
 

@@ -29,10 +29,6 @@ app.use('/api/auth', authRoutes);
 
 
 
-
-
-
-
 ///////////////////////////////////////////////////////////
 ///////////////////////////////Routes/////////////////////
 //////////////////////////////////////////////////////////
@@ -166,7 +162,7 @@ app.use(errorHandler);
 
 
 db.sequelize
-  .sync()
+  .sync({force: true})
   .then(result => {
     console.log('succesfully connected to database', result);
   })
