@@ -1,6 +1,6 @@
+require('dotenv').config();
 const Sequelize = require('sequelize');
 const bcrypt    = require('bcrypt');
-require('dotenv').config();
 const username = process.env.username || "root";
 const password = process.env.password;
 const host = process.env.host;
@@ -24,7 +24,10 @@ const User = sequelize.define('user', {
     allowNull: false,
     primaryKey: true
   },
-  username: Sequelize.STRING,
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   name: Sequelize.STRING,
   company: Sequelize.STRING,
   email: Sequelize.STRING,
@@ -50,6 +53,7 @@ const User = sequelize.define('user', {
     defaultValue: 'active'
   }
 }, {
+    timestamps: false,
     hooks: {
       beforeCreate: (user) => {
         const salt = bcrypt.genSaltSync();
@@ -63,15 +67,6 @@ const User = sequelize.define('user', {
     }
 })
 
-// User.beforeCreate((user, options) => {
-//   return bcrypt.hash(user.password, 10)
-//           .then(hash => {
-//             user.password = hash;
-//           })
-//           .catch(err => {
-//             throw new Error()
-//           })
-// })
 
 
 //TODO: veryify isEmail true, maybe is Phone number true (sequelize docs)

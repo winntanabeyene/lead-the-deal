@@ -1,12 +1,14 @@
-const express    = require('express');
-const path       = require('path');
-const bodyParser = require('body-parser');
-const axios      = require('axios');
-const db         = require('../database/index');
-const session    = require('express-session');
-const passport   = require('passport');
-const bcrypt     = require('bcrypt');
-const authRoutes = require('./routes/auth')
+require('dotenv').config()
+const express       = require('express');
+const path          = require('path');
+const bodyParser    = require('body-parser');
+const axios         = require('axios');
+const db            = require('../database/index');
+const session       = require('express-session');
+const passport      = require('passport');
+const bcrypt        = require('bcrypt');
+const authRoutes    = require('./routes/auth')
+const errorHandler  = require('../handlers/error')
 
 
 const app = express();
@@ -144,16 +146,23 @@ app.delete('/api/contacts/:id', (req, res) => {
 
 })
 
+////////////////////////////////////////////
+////////////  ERROR HANDLER ////////////////
+////////////////////////////////////////////
 
-//////////////////////
-////VERIFICATION/////
-////////////////////
+app.use(function (req, res, next) {
+  let err = new Error("Not Found");
+  err.status = 404;
+  next(err);
+})
 
 
+app.use(errorHandler);
+
+
+///////////////
 ///SERVER/////
-
-
-//// to clean: {force: true}
+//////////////
 
 
 db.sequelize
@@ -164,7 +173,6 @@ db.sequelize
   .catch(err => {
     console.log('could not connect to database', err);
   })
-
 
 
 const PORT = process.env.PORT || 3000;
