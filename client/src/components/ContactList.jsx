@@ -21,7 +21,7 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
           {uploaded.map((contact) => {
             return (
               <div key={contact.id}>
-              <Button size="small" onClick={() => { selectContact(contact.id, 'uploaded') }}>
+              <Button size="small" onClick={() => { selectContact(contact.id, 'uploaded', 'access') }}>
                 {contact.name}, {contact.company}
               </Button>
               </div>
@@ -49,7 +49,7 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
             {purchased.map((contact) => {
               return (
                 <div key={contact.id}>
-                <Button size="small" onClick={() => { selectContact(contact.id, 'purchased')}}>
+                <Button size="small" onClick={() => { selectContact(contact.id, 'purchased', 'access')}}>
                   {contact.name}, {contact.company}
                 </Button>
                 </div>

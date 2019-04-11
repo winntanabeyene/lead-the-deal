@@ -47,7 +47,7 @@ app.post('/api/search', (req, res)=>{
     query.name = {[Op.ne]: 'UNDEFINED'}
   }
   else {
-    query.name= {[Op.eq]: query.name}
+    query.name= {[Op.substring]: query.name}
   }
   //------------------------------------------------
   if (!query.company) {
@@ -95,6 +95,7 @@ app.post('/api/search', (req, res)=>{
           const searchRes = {};
           searchRes.name = contact.name;
           searchRes.id = contact.id;
+          searchRes.company = contact.company
           searchRes.industry = contact.industry;
           searchRes.position = contact.position;
           return searchRes;

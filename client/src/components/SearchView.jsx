@@ -7,7 +7,7 @@ import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 
 
-const SearchView = ({searchedContacts, selectedView}) => {
+const SearchView = ({searchedContacts, selectedView, selectContact}) => {
   console.log(selectedView)
   if (selectedView === 'searched'){
     if (searchedContacts.length > 0){
@@ -20,7 +20,7 @@ const SearchView = ({searchedContacts, selectedView}) => {
           {searchedContacts.map((contact) => {
             return (
               <div key={contact.id}>
-                <Button size="small" onClick={() => {console.log('clicked!') }}>
+                <Button size="small" onClick={() => { selectContact(contact.id, 'searched', 'limited') }}>
                   {contact.name}, {contact.company}
                 </Button>
               </div>
