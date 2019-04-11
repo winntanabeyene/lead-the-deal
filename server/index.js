@@ -2,7 +2,10 @@ const express    = require('express');
 const path       = require('path');
 const bodyParser = require('body-parser');
 const axios      = require('axios');
-const db         = require('../database/index')
+const db         = require('../database/index');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op
+
 
 
 const app = express();
@@ -39,14 +42,70 @@ db.User.findAll()
 
 app.post('/api/search', (req, res)=>{
   const query = req.body;
-  db.Contact.findAll({
+  ////// SETTING LOGIC TO HANDLE UNDEFINED VALUES ///////////////////////////
+  if (!query.name){
+    query.name = {[Op.ne]: 'UNDEFINED'}
+  }
+  else {
+    query.name= {[Op.eq]: query.name}
+  }
+  //------------------------------------------------
+  if (!query.company) {
+    query.company = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.company = { [Op.eq]: query.company }
+  }
+//------------------------------------------------
+  if (!query.industry) {
+    query.industry = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.industry = { [Op.eq]: query.industry }
+  }
+  //----------------------------------------------------
 
-  })
-  .then((result) => {
-    console.log(result)
-  }).catch((err) => {
-    console.log(err)
-  });
+  if (!query.position) {
+    query.position = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.position = { [Op.eq]: query.position }
+  }
+  //------------------------------------------------------
+  if (!query.address) {
+    query.address = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.address = { [Op.substring]: query.address }
+  }
+
+
+      db.Contact.findAll({
+        where: {
+          name: query.name,
+          company: query.company,
+          industry: query.industry,
+          position: query.position,
+          Address: query.address
+        }
+      })
+      .then((contacts)=>{
+        
+        const noContactInfo = contacts.map((contact)=>{
+          const searchRes = {};
+          searchRes.name = contact.name;
+          searchRes.id = contact.id;
+          searchRes.industry = contact.industry;
+          searchRes.position = contact.position;
+          return searchRes;
+        })
+        res.send(noContactInfo)
+      })
+      .catch((err)=>{
+        res.send(err)
+      })
+  
+  
 });
 
 

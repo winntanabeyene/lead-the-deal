@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import LeadInfo from './LeadInfo.jsx'
 import ButtonList from './ButtonList.jsx'
 import ContactList from './ContactList.jsx'
+import SearchView from './SearchView.jsx'
 
 import axios from 'axios';
 
@@ -22,6 +23,7 @@ class DashBody extends React.Component {
       purchased: [],
       currentLead: {},
       contact: null,
+      searchedContacts: []
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -61,8 +63,12 @@ selectContact(contactId, list){
 searchContact(query){
   console.log(query)
  axios.post('/api/search', query)
-  .then((results) => {
-    console.log(results)
+  .then((contacts) => {
+    console.log(contacts)
+    this.setState({
+      searchedContacts: contacts.data,
+      selectedView: 'searched',
+    })
   }).catch((err) => {
     console.log(err)
   });
@@ -87,6 +93,8 @@ render(){
           <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
             selectedView={this.state.selectedView} selectContact={this.selectContact} 
             searchContact={this.searchContact} uploadContact={this.uploadContact}/>
+          <SearchView searchedContacts={this.state.searchedContacts} selectedView={this.state.selectedView}/>
+
         </Grid>
         <Grid item xs={8}>
           <LeadInfo currentLead={this.state.currentLead}/>
