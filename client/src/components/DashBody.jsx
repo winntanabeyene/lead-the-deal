@@ -36,6 +36,7 @@ class DashBody extends React.Component {
     this.uploadedView = this.uploadedView.bind(this);
     this.purchasedView = this.purchasedView.bind(this);
     this.uploadContact = this.uploadContact.bind(this);
+    this.contactPurchase = this.contactPurchase.bind(this);
   }
 
 selectView(button){
@@ -96,6 +97,17 @@ uploadContact(contact){
     });
 }
 
+contactPurchase(contactId){
+  console.log(contactId)
+  axios.post(`/api/contact_purchase/:${contactId}`)
+  .then((result)=>{
+    this.purchasedView()
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+}
+
 
 render(){
   return (
@@ -110,7 +122,7 @@ render(){
 
         </Grid>
         <Grid item xs={8}>
-          <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView}/>
+          <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
         </Grid>
       </Grid>
     </div>
