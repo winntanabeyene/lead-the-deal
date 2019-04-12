@@ -191,6 +191,14 @@ app.post('/api/contact_purchase/:contactId', (req, res)=>{
 
 app.get('/api/users/:id', (req, res) => {
 
+  db.User.findOne({where: {id: req.params.id}})
+    .then((result) => {
+      res.send(result);
+    }).catch((err) => {
+      res.send('there was an error getting points');
+    });
+
+
 })
 
 
@@ -290,7 +298,7 @@ app.use(errorHandler);
 
 
 db.sequelize
-  .sync({force: true})
+  .sync()
   .then(result => {
     console.log('succesfully connected to database', result);
   })
