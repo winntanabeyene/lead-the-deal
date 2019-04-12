@@ -8,12 +8,17 @@ const username = process.env.username || "root";
 const password = process.env.password || "";
 const host = process.env.host|| "localhost";
 const port = process.env.port || '3000'
+const dbName = process.env.dbName || 'lead_the_deal'
 
+// const sequelize = new Sequelize('lead_the_deal', username, password, {
+//   dialect: 'mysql',
+//   host: host,
+// });
 const sequelize = new Sequelize('lead_the_deal', username, password, {
-  dialect: 'mysql',
   host: host,
+  // port: 3306,
+  dialect: 'mysql'
 });
-
 
 ///////////////////
 /////MODELS ///////
