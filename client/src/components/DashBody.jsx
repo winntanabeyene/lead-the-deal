@@ -8,7 +8,7 @@ import LeadInfo from './LeadInfo.jsx'
 import ButtonList from './ButtonList.jsx'
 import ContactList from './ContactList.jsx'
 import SearchView from './SearchView.jsx'
-
+import { withRouter } from 'react-router'
 import axios from 'axios';
 
 
@@ -38,6 +38,11 @@ class DashBody extends React.Component {
     this.uploadContact = this.uploadContact.bind(this);
     this.contactPurchase = this.contactPurchase.bind(this);
   }
+
+componentDidMount(){
+ this.props.history.push('/dashboard')
+}
+
 
 selectView(button){
   this.setState({selectedView: button})
@@ -130,14 +135,23 @@ render(){
     <div>
       <Grid container spacing={24}>
         <Grid item xs>
+        <div className="left-top-display">
           <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView}/>
+
+        </div>
+      
+        <div className="left-bottom-display">
+
           <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
             selectedView={this.state.selectedView} selectContact={this.selectContact} 
             searchContact={this.searchContact} uploadContact={this.uploadContact}/>
           <SearchView searchedContacts={this.state.searchedContacts} selectedView={this.state.selectedView} selectContact={this.selectContact}/>
+        </div>
 
         </Grid>
         <Grid item xs={8}>
+        <div>
+        </div>
           <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
         </Grid>
       </Grid>
@@ -163,4 +177,4 @@ const styles = theme => ({
 });
 
 
-export default withStyles(styles)(DashBody);
+export default withRouter(withStyles(styles)(DashBody));

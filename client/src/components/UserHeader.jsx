@@ -10,6 +10,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import AuthService from './AuthService';
 import Axios from 'axios';
+import { withRouter } from 'react-router'
+
+
 
 const styles = {
   root: {
@@ -34,10 +37,12 @@ class UserHeader extends React.Component {
       points: null
     }
 
+    this.logOut = this.logOut.bind(this);
   }
 
   componentDidMount(){
-   // this.props.history.push('/dashboard');
+   
+    this.props.history.push('/dashboard');
   
    if (this.props.userId)
 
@@ -51,6 +56,11 @@ class UserHeader extends React.Component {
       console.error(err);
     });
 
+  }
+
+  logOut(){
+    this.props.history.push('/login')
+    this.props.logOutUser();
   }
 
 
@@ -72,7 +82,7 @@ class UserHeader extends React.Component {
           </Typography>
 
             <div>
-              <Button onClick={logOutUser}>Logout</Button>
+              <Button onClick={this.logOut}>Logout</Button>
             </div>
            
         </Toolbar>
@@ -86,4 +96,4 @@ class UserHeader extends React.Component {
 //   classes: PropTypes.object.isRequired,
 // };
 
-export default withStyles(styles)(UserHeader);
+export default withRouter(withStyles(styles)(UserHeader));
