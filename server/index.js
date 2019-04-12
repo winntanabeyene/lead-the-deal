@@ -79,31 +79,41 @@ app.post('/api/search', (req, res)=>{
     query.address = { [Op.substring]: query.address }
   }
 
-
-      db.Contact.findAll({
-        where: {
-          name: query.name,
-          company: query.company,
-          industry: query.industry,
-          position: query.position,
-          Address: query.address
+      db.Purchase.findAll({
+        where:{
+          user_id: 1 /// --------------------------------------------------will be changed when passport works
         }
       })
       .then((contacts)=>{
-        
-        const noContactInfo = contacts.map((contact)=>{
-          const searchRes = {};
-          searchRes.name = contact.name;
-          searchRes.id = contact.id;
-          searchRes.company = contact.company
-          searchRes.industry = contact.industry;
-          searchRes.position = contact.position;
-          return searchRes;
+        let contactId = contacts.map((contact)=> contact.contact_id)
+
+        db.Contact.findAll({
+          where: {
+            name: query.name,
+            company: query.company,
+            industry: query.industry,
+            position: query.position,
+            Address: query.address,
+            id: { [Op.notIn]: contactId   }
+          }
         })
-        res.send(noContactInfo)
-      })
-      .catch((err)=>{
-        res.send(err)
+        .then((contacts)=>{
+          
+          const noContactInfo = contacts.map((contact)=>{
+            const searchRes = {};
+            searchRes.name = contact.name;
+            searchRes.id = contact.id;
+            searchRes.company = contact.company
+            searchRes.industry = contact.industry;
+            searchRes.position = contact.position;
+            return searchRes;
+          })
+          res.send(noContactInfo)
+        })
+        .catch((err)=>{
+          res.send(err)
+        })
+
       })
   
   
