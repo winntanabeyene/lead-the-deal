@@ -11,45 +11,59 @@ import FormView from './FormView.jsx'
 
 const ContactList = ({uploaded, purchased, selectedView, selectContact, searchContact, uploadContact}) => {
   if (selectedView === 'uploaded'){
-    return (
-      <div>
-        {/* <Paper> */}
-        <div className="lead-header lead-row">
-          Name, Company
-        </div>
-        {uploaded.map((contact) => {
-          return (
-            <div key={contact.id}>
-            <Button size="small" onClick={() => { selectContact(contact.id, 'uploaded') }}>
-              {contact.name}, {contact.company}
-            </Button>
-            </div>
-          )
-        })}
-        {/* </Paper> */}
-      </div>
-    )
-  }
-  else if (selectedView === 'purchased'){
-    console.log(searchContact)
-    return (
-      <div>
-        {/* <Paper> */}
+    if (uploaded.length > 0){
+      return (
+        <div>
+          {/* <Paper> */}
           <div className="lead-header lead-row">
             Name, Company
-        </div>
-          {purchased.map((contact) => {
+          </div>
+          {uploaded.map((contact) => {
             return (
               <div key={contact.id}>
-              <Button size="small" onClick={() => { selectContact(contact.id, 'purchased')}}>
+              <Button size="small" onClick={() => { selectContact(contact.id, 'uploaded', 'access') }}>
                 {contact.name}, {contact.company}
               </Button>
               </div>
             )
           })}
-        {/* </Paper> */}
-      </div>
-    )
+          {/* </Paper> */}
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>You have not uploaded any contacts!</div>
+      )
+    }
+  }
+  else if (selectedView === 'purchased'){
+    if (purchased.length >0){
+      return (
+        <div>
+          {/* <Paper> */}
+            <div className="lead-header lead-row">
+              Name, Company
+          </div>
+          
+            {purchased.map((contact) => {
+              return (
+                <div key={contact.id}>
+                <Button size="small" onClick={() => { selectContact(contact.id, 'purchased', 'access')}}>
+                  {contact.name}, {contact.company}
+                </Button>
+                </div>
+              )
+            })}
+          {/* </Paper> */}
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>You have not Purchased any contacts!</div>
+      )
+    }
   }
   else if (selectedView === 'upload') {
     return (
