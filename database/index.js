@@ -4,8 +4,9 @@ const Op = Sequelize.Op
 // const {username, password, host} = require('../config')
 require('dotenv').config();
 const username = process.env.username || "root";
-const password = process.env.password;
-const host = process.env.host;
+const password = process.env.password || "";
+const host = process.env.host|| "localhost";
+const port = process.env.port || '3000'
 
 const sequelize = new Sequelize('lead_the_deal', username, password, {
   dialect: 'mysql',
