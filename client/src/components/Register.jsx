@@ -64,20 +64,8 @@ class Register extends React.Component {
 
 
   handleSubmit(){
-    Axios.post('/api/register', this.state)
-      .then((response) => {
-        console.log(response);
-        if (response.data){
-          console.log('succesful signup')
-          this.setState({
-            redirectTo: '/login'
-          })
-        } else{
-          console.log('signup error')
-        }
-      }).catch((err) => {
-        console.log('sign up server error', err);
-      });
+    this.props.history.push('/login')
+    this.props.registerUser(this.state)
   }
 
 
@@ -137,7 +125,7 @@ class Register extends React.Component {
        Register
           </Button>
 
-          <Button
+          {/* <Button
             type="submit"
             fullWidth
             variant="contained"
@@ -146,7 +134,7 @@ class Register extends React.Component {
             
             >
                Login
-          </Button>
+          </Button> */}
         </form>
       </Paper>
     </main>

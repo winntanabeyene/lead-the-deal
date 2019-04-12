@@ -16,6 +16,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+// app.get('*', function (request, response) {
+//   response.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'))
+// })
+
 //////////////////////////////////////////////////////////
 ///////////// AUTHENTICATION ////////////////////////////
 //////////////////////////////////////////////////////
