@@ -5,6 +5,9 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 
+
+
+
 router.post('/:id/upload',(req,res)=>{
   const userId = req.params.id
   const upload = req.body

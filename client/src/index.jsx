@@ -98,15 +98,10 @@ logOutUser(){
   
 
         {this.state.isLoggedin ? 
-<<<<<<< HEAD
-          <DashBody auth={this.Auth} userId={this.state.userId}/> : null
-        }
-=======
         <div>
->>>>>>> 857cf615790d61b9e765b827aea9cb512e4d31b5
 
       <UserHeader logOutUser={this.logOutUser} userId={this.state.userId}/>
-      <DashBody /> 
+      <DashBody auth={this.Auth} userId={this.state.userId}/> 
     
       <Route exact path='/dashboard' component={DashBody} />
         </div>

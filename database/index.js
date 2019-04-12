@@ -14,9 +14,9 @@ const dbName = process.env.dbName || 'lead_the_deal'
 //   dialect: 'mysql',
 //   host: host,
 // });
-const sequelize = new Sequelize('leadthedeal', 'leadthedeal', process.env.passwordnpm, {
-  host: 'leadthedeal.cnj86ydpcvlt.us-east-2.rds.amazonaws.com',
-  port: 3306,
+const sequelize = new Sequelize('lead_the_deal', username, password, {
+  host: host,
+  // port: 3306,
   dialect: 'mysql'
 });
 
