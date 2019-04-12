@@ -9,6 +9,7 @@ const Practice = ({currentLead, contactView, contactPurchase}) => {
   if (contactView === 'access'){
     return (
       <div>
+        WTF WTF WTF
         <div>{currentLead.name}</div>
         <div>{currentLead.company}</div>
         <div>{currentLead.position}</div>

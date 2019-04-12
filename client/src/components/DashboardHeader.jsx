@@ -7,8 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
 import AuthService from './AuthService';
+import { withRouter } from 'react-router'
+
 
 const styles = {
   root: {
@@ -64,4 +66,4 @@ function DashboardHeader(props) {
 //   classes: PropTypes.object.isRequired,
 // };
 
-export default withStyles(styles)(DashboardHeader);
+export default withRouter(withStyles(styles)(DashboardHeader));

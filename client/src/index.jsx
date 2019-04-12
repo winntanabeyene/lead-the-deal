@@ -30,23 +30,23 @@ class App extends React.Component {
 
 
 componentWillMount() {
-    if (this.Auth.loggedIn()){
-      this.setState({
-        isLoggedin: true,
-        redirectTo: '/dashboard'
-      })
-    } else{
-      this.setState({
-        isLoggedin: false
-      })
-    }
+  //   if (this.Auth.loggedIn()){
+  //     this.setState({
+  //       isLoggedin: true,
+  //       redirectTo: '/dashboard'
+  //     })
+  //   } else{
+  //     this.setState({
+  //       isLoggedin: false
+  //     })
+  //   }
   }
 
 componentDidMount(){
   
-this.setState({
-  isLoggedin: false
-})
+// this.setState({
+//   isLoggedin: false
+// })
 }
 
 registerUser(user){
@@ -76,6 +76,10 @@ loginUser(username, password){
         isLoggedin: true,
         userId: res.id
       })
+
+      //redirect user
+
+
       console.log(this.props);
     }).catch((err) => {
       alert(err.message);
@@ -101,9 +105,10 @@ logOutUser(){
         <div>
 
       <UserHeader logOutUser={this.logOutUser} userId={this.state.userId}/>
-      <DashBody /> 
+       <DashBody /> 
+      
     
-      <Route exact path='/dashboard' component={DashBody} />
+      <Route exact path='/dashboard' />
         </div>
         : 
         <div>
