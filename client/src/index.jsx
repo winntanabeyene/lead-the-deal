@@ -98,7 +98,7 @@ logOutUser(){
         <DashboardHeader isLoggedin={this.state.isLoggedin} logOutUser={this.logOutUser}/>
 
         {this.state.isLoggedin ? 
-        <DashBody /> : null
+          <DashBody auth={this.Auth} userId={this.state.userId}/> : null
         }
 
           <Route exact path ='/dashboard' component={DashBody} />

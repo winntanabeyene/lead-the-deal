@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../../database/index.js')
 
-router.post('/upload',(req,res)=>{
+
+router.post('/:id/upload',(req,res)=>{
+  const userId = req.params.id
   const upload = req.body
   db.Contact.create({
     name: upload.name,
@@ -21,3 +24,98 @@ router.post('/upload',(req,res)=>{
       console.log(err)
     })
 })
+
+router.get('/:id/uploaded_contacts', (req, res) => {
+  db.User.findAll({ where: { id: req.params.id } })
+    .then((result) => {
+      result[0].getUploads()
+        .then((result) => {
+          res.send(result);
+        }).catch((err) => {
+          res.send('there was an error locating uploaded users');
+        });
+    }).catch((err) => {
+      res.send(err);
+    });
+})
+
+router.get('/:id/purchased_contacts', (req, res) => {
+  let userId = req.params.id.slice(1);
+  db.purchasedContacts(function (contacts) {
+    res.send(contacts)
+  }, userId)
+})
+
+router.post('/search', (req, res) => {
+  const query = req.body;
+  ////// SETTING LOGIC TO HANDLE UNDEFINED VALUES ///////////////////////////
+  if (!query.name) {
+    query.name = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.name = { [Op.substring]: query.name }
+  }
+  //------------------------------------------------
+  if (!query.company) {
+    query.company = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.company = { [Op.eq]: query.company }
+  }
+  //------------------------------------------------
+  if (!query.industry) {
+    query.industry = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.industry = { [Op.eq]: query.industry }
+  }
+  //----------------------------------------------------
+  if (!query.position) {
+    query.position = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.position = { [Op.eq]: query.position }
+  }
+  //------------------------------------------------------
+  if (!query.address) {
+    query.address = { [Op.ne]: 'UNDEFINED' }
+  }
+  else {
+    query.address = { [Op.substring]: query.address }
+  }
+  db.Purchase.findAll({
+    where: {
+      user_id: 1 /// --------------------------------------------------will be changed when passport works
+    }
+  })
+    .then((contacts) => {
+      let contactId = contacts.map((contact) => contact.contact_id)
+      db.Contact.findAll({
+        where: {
+          name: query.name,
+          company: query.company,
+          industry: query.industry,
+          position: query.position,
+          Address: query.address,
+          id: { [Op.notIn]: contactId }
+        }
+      })
+        .then((contacts) => {
+          const noContactInfo = contacts.map((contact) => {
+            const searchRes = {};
+            searchRes.name = contact.name;
+            searchRes.id = contact.id;
+            searchRes.company = contact.company
+            searchRes.industry = contact.industry;
+            searchRes.position = contact.position;
+            return searchRes;
+          })
+          res.send(noContactInfo)
+        })
+        .catch((err) => {
+          res.send(err)
+        })
+    })
+});
+
+module.exports = router;

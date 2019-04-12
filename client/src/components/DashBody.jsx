@@ -44,10 +44,18 @@ selectView(button){
 }
 
 uploadedView(){
-  axios.get(`/api/users/:${'userId'}/uploaded_contacts`)
-    .then((uploadedContacts)=>{
-      this.setState({uploaded: uploadedContacts.data, selectedView: 'uploaded'})
+  this.props.auth.fetch(`/api/users/${this.props.userId}/uploaded_contacts`)
+    .then((uploadedContacts) => {
+      console.log(uploadedContacts.data)
+      this.setState({ uploaded: uploadedContacts.data, selectedView: 'uploaded' })
     })
+    .catch((err)=>{
+      console.log(err);
+    })
+  // axios.get(`/api/users/:${'userId'}/uploaded_contacts`)
+  //   .then((uploadedContacts)=>{
+  //     this.setState({uploaded: uploadedContacts.data, selectedView: 'uploaded'})
+  //   })
 }
 purchasedView(){
   axios.get(`/api/users/:${'userId'}/purchased_contacts`)
@@ -89,12 +97,14 @@ searchContact(query){
 }
 
 uploadContact(contact){
-  axios.post('/api/upload', contact)
-    .then((results) => {
-      console.log(results)
-    }).catch((err) => {
-      console.log(err)
-    });
+  console.log(this.props.userId)
+  this.props.auth.fetch(`/api/users/${this.props.userId}/upload`, contact)
+  // axios.post('/api/upload', contact)
+  //   .then((results) => {
+  //     console.log(results)
+  //   }).catch((err) => {
+  //     console.log(err)
+  //   });
 }
 
 contactPurchase(contactId){
