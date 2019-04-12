@@ -101,7 +101,7 @@ logOutUser(){
         <div>
 
       <UserHeader logOutUser={this.logOutUser} userId={this.state.userId}/>
-      <DashBody /> 
+      <DashBody auth={this.Auth} userId={this.state.userId}/> 
     
       <Route exact path='/dashboard' component={DashBody} />
         </div>
