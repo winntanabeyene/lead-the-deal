@@ -5,8 +5,9 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op
 const bcrypt    = require('bcrypt');
 const username = process.env.username || "root";
-const password = process.env.password;
-const host = process.env.host;
+const password = process.env.password || "";
+const host = process.env.host|| "localhost";
+const port = process.env.port || '3000'
 
 const sequelize = new Sequelize('lead_the_deal', username, password, {
   dialect: 'mysql',
