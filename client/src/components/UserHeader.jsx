@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import AuthService from './AuthService';
+import Axios from 'axios';
 
 const styles = {
   root: {
@@ -23,45 +24,66 @@ const styles = {
   },
 };
 
-function DashboardHeader(props) {
-  const { classes } = props;
-  const {isLoggedIn} = props;
-  const {logOutUser} = props;
+class UserHeader extends React.Component {
 
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      points: null
+    }
+
+  }
+
+  componentDidMount(){
+   // this.props.history.push('/dashboard');
+  
+   if (this.props.userId)
+
+   Axios.get(`/api/users/${this.props.userId}`)
+    .then((result) => {
+      console.log(result);
+      this.setState({
+        points: result.data.points
+      })
+    }).catch((err) => { 
+      console.error(err);
+    });
+
+  }
+
+
+  render(){
+
+    
+    const { classes } = this.props;
+    const { isLoggedIn } = this.props;
+    const { logOutUser } = this.props;
+    
     
     return (
       <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          You have <div>{this.state.points}</div> points
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Lead the Deal
           </Typography>
-          
-         { isLoggedIn ?
-         <div>
-           <Button onClick={logOutUser}>Logout</Button>
-         </div>
-         :<div>
-         <Button color="inherit">
-            <Link to="/register">
-              REGISTER
-          </Link>
-          </Button>
-          <Button color="inherit">
-          <Link to="/login">
-          LOGIN
-          </Link>          
-          </Button> 
-         </div> }
+
+            <div>
+              <Button onClick={logOutUser}>Logout</Button>
+            </div>
+           
         </Toolbar>
       </AppBar>
     </div>
-  );
-
+  );  
+}
 }
 
 // DashboardHeader.propTypes = {
 //   classes: PropTypes.object.isRequired,
 // };
 
-export default withStyles(styles)(DashboardHeader);
+export default withStyles(styles)(UserHeader);
