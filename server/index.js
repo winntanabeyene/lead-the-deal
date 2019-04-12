@@ -8,6 +8,10 @@ const session       = require('express-session');
 const passport      = require('passport');
 const bcrypt        = require('bcrypt');
 const authRoutes    = require('./routes/auth')
+// const usersRoute   = require('./routes/users')
+
+
+
 const errorHandler  = require('../handlers/error')
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -143,6 +147,8 @@ app.post('/api/search', (req, res)=>{
 
 
 ////////// UPLOAD API ///////////////////
+// app.post('/api/users', uploadRoute)
+
 app.post('/api/upload', (req, res)=>{
   const upload = req.body
   db.Contact.create({

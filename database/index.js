@@ -1,9 +1,8 @@
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op
 
 // const {username, password, host} = require('../config')
 require('dotenv').config();
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 const bcrypt    = require('bcrypt');
 const username = process.env.username || "root";
 const password = process.env.password;
@@ -67,7 +66,8 @@ const User = sequelize.define('user', {
 
 
 User.prototype.isValidPassword = function(password){
-  return bcrypt.compare(password, this.password)
+  const isValid = bcrypt.compare(password, this.password)
+  return isValid
 }
 
 //TODO: veryify isEmail true, maybe is Phone number true (sequelize docs)
