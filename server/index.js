@@ -193,7 +193,19 @@ app.use('/api/auth', authRoutes);
 
 // app.get('/api/users/:id', (req, res) => {
 
+<<<<<<< HEAD
 // })
+=======
+  db.User.findOne({where: {id: req.params.id}})
+    .then((result) => {
+      res.send(result);
+    }).catch((err) => {
+      res.send('there was an error getting points');
+    });
+
+
+})
+>>>>>>> 857cf615790d61b9e765b827aea9cb512e4d31b5
 
 app.use('/api/users', usersRoute) //-----------------------------------------------------------!!!!!!
 

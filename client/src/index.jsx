@@ -8,6 +8,7 @@ import Register from './components/Register.jsx';
 import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom'
 import Axios from 'axios';
 import AuthService from './components/AuthService.js';
+import UserHeader from './components/UserHeader.jsx';
 
 class App extends React.Component {
 
@@ -95,20 +96,35 @@ logOutUser(){
     return(
       <Router>
   
-        <DashboardHeader isLoggedin={this.state.isLoggedin} logOutUser={this.logOutUser}/>
 
         {this.state.isLoggedin ? 
+<<<<<<< HEAD
           <DashBody auth={this.Auth} userId={this.state.userId}/> : null
         }
+=======
+        <div>
+>>>>>>> 857cf615790d61b9e765b827aea9cb512e4d31b5
 
-          <Route exact path ='/dashboard' component={DashBody} />
+      <UserHeader logOutUser={this.logOutUser} userId={this.state.userId}/>
+      <DashBody /> 
+    
+      <Route exact path='/dashboard' component={DashBody} />
+        </div>
+        : 
+        <div>
+        <DashboardHeader isLoggedin={this.state.isLoggedin} logOutUser={this.logOutUser}/>
 
           <Route path='/register'
-           render={(routeProps) => (<Register {...routeProps} registerUser={this.registerUser}/>)}
+            render={(routeProps) => (<Register {...routeProps} registerUser={this.registerUser} />)}
             />
           <Route path='/login'
-           render={(routeProps) => (<Login {...routeProps} Auth={this.Auth} isLoggedin={this.state.isLoggedin} loginUser={this.loginUser}/>)}
+            render={(routeProps) => (<Login {...routeProps} Auth={this.Auth} isLoggedin={this.state.isLoggedin} loginUser={this.loginUser} />)}
             />
+            </div>
+
+        }
+
+        
     
       </Router>
     )
