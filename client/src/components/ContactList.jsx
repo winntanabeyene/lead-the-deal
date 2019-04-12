@@ -38,7 +38,7 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
       )
     }
   }
-  else if (selectedView === 'purchased'){
+  else if (selectedView === 'purchased' && purchased){
     if (purchased.length >0){
       return (
         <div>

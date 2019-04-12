@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../database/index.js')
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 router.post('/:id/upload',(req,res)=>{
@@ -15,7 +17,7 @@ router.post('/:id/upload',(req,res)=>{
     email: upload.email,
     Address: upload.address,
     times_purchased: 0,
-    userId: 1
+    userId: userId
   })
     .then((result) => {
       console.log(result)
@@ -40,13 +42,13 @@ router.get('/:id/uploaded_contacts', (req, res) => {
 })
 
 router.get('/:id/purchased_contacts', (req, res) => {
-  let userId = req.params.id.slice(1);
+  let userId = req.params.id
   db.purchasedContacts(function (contacts) {
     res.send(contacts)
   }, userId)
 })
 
-router.post('/search', (req, res) => {
+router.post('/search/:id', (req, res) => {
   const query = req.body;
   ////// SETTING LOGIC TO HANDLE UNDEFINED VALUES ///////////////////////////
   if (!query.name) {
@@ -85,7 +87,7 @@ router.post('/search', (req, res) => {
   }
   db.Purchase.findAll({
     where: {
-      user_id: 1 /// --------------------------------------------------will be changed when passport works
+      user_id: req.params.id
     }
   })
     .then((contacts) => {
@@ -117,5 +119,20 @@ router.post('/search', (req, res) => {
         })
     })
 });
+
+router.post(`/purchase_contact/:id/:contactId`, (req, res) => {
+  const userId = req.params.id;
+  const contactId = req.params.contactId
+  db.Purchase.create({
+    user_id: userId, /////------------------------------------------------------------passport todo
+    contact_id: contactId,
+  })
+    .then((result) => {
+      console.log(result)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
 
 module.exports = router;

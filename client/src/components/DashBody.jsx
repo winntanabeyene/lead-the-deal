@@ -47,20 +47,21 @@ uploadedView(){
   this.props.auth.fetch(`/api/users/${this.props.userId}/uploaded_contacts`)
     .then((uploadedContacts) => {
       console.log(uploadedContacts.data)
-      this.setState({ uploaded: uploadedContacts.data, selectedView: 'uploaded' })
+      this.setState({ uploaded: uploadedContacts, selectedView: 'uploaded' })
     })
     .catch((err)=>{
       console.log(err);
     })
-  // axios.get(`/api/users/:${'userId'}/uploaded_contacts`)
-  //   .then((uploadedContacts)=>{
-  //     this.setState({uploaded: uploadedContacts.data, selectedView: 'uploaded'})
-  //   })
 }
 purchasedView(){
-  axios.get(`/api/users/:${'userId'}/purchased_contacts`)
+  console.log('get logged in')
+  this.props.auth.fetch(`/api/users/${this.props.userId}/purchased_contacts`)
     .then((purchasedContacts) => {
-      this.setState({ purchased: purchasedContacts.data, selectedView: 'purchased' })
+      console.log(purchasedContacts)
+      this.setState({ purchased: purchasedContacts, selectedView: 'purchased' })
+    })
+    .catch((err)=>{
+      console.log(err);
     })
 }
 
@@ -84,38 +85,43 @@ selectContact(contactId, list, view){
 
 searchContact(query){
   console.log(query)
- axios.post('/api/search', query)
-  .then((contacts) => {
-    console.log(contacts)
-    this.setState({
-      searchedContacts: contacts.data,
-      selectedView: 'searched',
-    })
-  }).catch((err) => {
-    console.log(err)
-  });
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(query)
+  }
+  this.props.auth.fetch(`/api/users/search/${this.props.userId}`, options)
+    .then((contacts) => {
+      console.log(contacts)
+      this.setState({
+        searchedContacts: contacts,
+        selectedView: 'searched',
+      })
+    }).catch((err) => {
+      console.log(err)
+    });
 }
 
 uploadContact(contact){
   console.log(this.props.userId)
-  this.props.auth.fetch(`/api/users/${this.props.userId}/upload`, contact)
-  // axios.post('/api/upload', contact)
-  //   .then((results) => {
-  //     console.log(results)
-  //   }).catch((err) => {
-  //     console.log(err)
-  //   });
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(contact)
+  }
+  this.props.auth.fetch(`/api/users/${this.props.userId}/upload`, options)
 }
 
 contactPurchase(contactId){
   console.log(contactId)
-  axios.post(`/api/contact_purchase/:${contactId}`)
-  .then((result)=>{
-    this.purchasedView()
-  })
-  .catch((err)=>{
-    console.log(err)
-  })
+  const options = {
+    method: 'POST',
+  }
+  this.props.auth.fetch(`/api/users/purchase_contact/${this.props.userId}/${contactId}`, options)
+    .then((result)=>{
+      console.log(result)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
 }
 
 
