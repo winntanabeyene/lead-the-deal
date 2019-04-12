@@ -1,11 +1,20 @@
-const express    = require('express');
-const path       = require('path');
-const bodyParser = require('body-parser');
-const axios      = require('axios');
-const db         = require('../database/index');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op
+require('dotenv').config()
+const express       = require('express');
+const path          = require('path');
+const bodyParser    = require('body-parser');
+const axios         = require('axios');
+const db            = require('../database/index');
+const session       = require('express-session');
+const passport      = require('passport');
+const bcrypt        = require('bcrypt');
+const authRoutes    = require('./routes/auth')
+// const usersRoute   = require('./routes/users')
 
+
+
+const errorHandler  = require('../handlers/error')
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 const app = express();
@@ -13,9 +22,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-///////////////
-////Routes/////
-///////////////
+// app.get('*', function (request, response) {
+//   response.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'))
+// })
+
+//////////////////////////////////////////////////////////
+///////////// AUTHENTICATION ////////////////////////////
+//////////////////////////////////////////////////////
+
+// app.use(session({secret: 'cat', resave: false, saveUninitialized: false}));
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+
+app.use('/api/auth', authRoutes);
+
+
+
+///////////////////////////////////////////////////////////
+///////////////////////////////Routes/////////////////////
+//////////////////////////////////////////////////////////
 
 
 //////////////////
@@ -79,31 +105,41 @@ app.post('/api/search', (req, res)=>{
     query.address = { [Op.substring]: query.address }
   }
 
-
-      db.Contact.findAll({
-        where: {
-          name: query.name,
-          company: query.company,
-          industry: query.industry,
-          position: query.position,
-          Address: query.address
+      db.Purchase.findAll({
+        where:{
+          user_id: 1 /// --------------------------------------------------will be changed when passport works
         }
       })
       .then((contacts)=>{
-        
-        const noContactInfo = contacts.map((contact)=>{
-          const searchRes = {};
-          searchRes.name = contact.name;
-          searchRes.id = contact.id;
-          searchRes.company = contact.company
-          searchRes.industry = contact.industry;
-          searchRes.position = contact.position;
-          return searchRes;
+        let contactId = contacts.map((contact)=> contact.contact_id)
+
+        db.Contact.findAll({
+          where: {
+            name: query.name,
+            company: query.company,
+            industry: query.industry,
+            position: query.position,
+            Address: query.address,
+            id: { [Op.notIn]: contactId   }
+          }
         })
-        res.send(noContactInfo)
-      })
-      .catch((err)=>{
-        res.send(err)
+        .then((contacts)=>{
+          
+          const noContactInfo = contacts.map((contact)=>{
+            const searchRes = {};
+            searchRes.name = contact.name;
+            searchRes.id = contact.id;
+            searchRes.company = contact.company
+            searchRes.industry = contact.industry;
+            searchRes.position = contact.position;
+            return searchRes;
+          })
+          res.send(noContactInfo)
+        })
+        .catch((err)=>{
+          res.send(err)
+        })
+
       })
   
   
@@ -111,6 +147,8 @@ app.post('/api/search', (req, res)=>{
 
 
 ////////// UPLOAD API ///////////////////
+// app.post('/api/users', uploadRoute)
+
 app.post('/api/upload', (req, res)=>{
   const upload = req.body
   db.Contact.create({
@@ -131,17 +169,27 @@ app.post('/api/upload', (req, res)=>{
     console.log(err)
   })
 })
+///////////////////////// PURCHASE CONTACT HANDLER ///////////////////////////////////
 
+app.post('/api/contact_purchase/:contactId', (req, res)=>{
+  const contactId = req.params.contactId.slice(1)
+  db.Purchase.create({
+    user_id: 1, /////------------------------------------------------------------passport todo
+    contact_id: contactId,
+  })
+  .then((result)=>{
+    console.log(result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
 
 
 
 /////INDIVIDUAL USER INFO/////////////
 
 app.get('/api/users/:id', (req, res) => {
-
-
-
-
 
 })
 
@@ -164,7 +212,7 @@ app.get('/api/users/:id/uploaded_contacts', (req, res) => {
 })
 
 app.get('/api/users/:id/purchased_contacts', (req, res) => {
-  let userId = req.params.id.slice(1)
+  let userId = req.params.id.slice(1);
   db.purchasedContacts(function (contacts) {
     res.send(contacts)
   }, userId)
@@ -180,7 +228,7 @@ app.post('/api/users', (req, res) => {
 
 })
 
-app.put('/api/users/:id', (req, res) => {
+app.patch('/api/users/:id', (req, res) => {
 
 })
 
@@ -222,27 +270,33 @@ app.delete('/api/contacts/:id', (req, res) => {
 
 })
 
+////////////////////////////////////////////
+////////////  ERROR HANDLER ////////////////
+////////////////////////////////////////////
 
-//////////////////////
-////VERIFICATION/////
-////////////////////
+app.use(function (req, res, next) {
+  let err = new Error("Not Found");
+  err.status = 404;
+  next(err);
+})
 
 
+app.use(errorHandler);
+
+
+///////////////
 ///SERVER/////
-
-
-//// to clean: {force: true}
+//////////////
 
 
 db.sequelize
-  .sync()
+  .sync({force: true})
   .then(result => {
     console.log('succesfully connected to database', result);
   })
   .catch(err => {
     console.log('could not connect to database', err);
   })
-
 
 
 const PORT = process.env.PORT || 3000;

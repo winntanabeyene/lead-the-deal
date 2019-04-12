@@ -1,8 +1,9 @@
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op
 
 // const {username, password, host} = require('../config')
 require('dotenv').config();
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op
+const bcrypt    = require('bcrypt');
 const username = process.env.username || "root";
 const password = process.env.password || "";
 const host = process.env.host|| "localhost";
@@ -12,6 +13,7 @@ const sequelize = new Sequelize('lead_the_deal', username, password, {
   dialect: 'mysql',
   host: host,
 });
+
 
 ///////////////////
 /////MODELS ///////
@@ -26,7 +28,10 @@ const User = sequelize.define('user', {
     allowNull: false,
     primaryKey: true
   },
-  username: Sequelize.STRING,
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   name: Sequelize.STRING,
   company: Sequelize.STRING,
   email: Sequelize.STRING,
@@ -41,15 +46,33 @@ const User = sequelize.define('user', {
   updatedAt: {
     type: Sequelize.DATE,
     defaultValue: sequelize.fn('NOW')
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  last_login: Sequelize.DATE,
+  status: {
+    type: Sequelize.ENUM('active', 'inactive'),
+    defaultValue: 'active'
   }
+}, {
+    hooks: {
+      beforeCreate: (user) => {
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(user.password, salt);
+      }
+    }
 })
 
 
-//TODO: Add uploaded by as foreign key from user parent key
+User.prototype.isValidPassword = function(password){
+  const isValid = bcrypt.compare(password, this.password)
+  return isValid
+}
+
 //TODO: veryify isEmail true, maybe is Phone number true (sequelize docs)
 
-
-//name, position, company, phone, email, address
 
 const Contact = sequelize.define('contact', {
   id: {
@@ -96,15 +119,20 @@ const Purchase = sequelize.define('purchase', {
   }
 })
 
+
+//////////////////////
+/////RELATIONSHIPS////
+//////////////////////
+
 User.hasMany(Contact, {as: 'Uploads'});
 Contact.belongsTo(User);
 User.belongsToMany(Contact, {as: 'Contacts', through: {model: Purchase, unique: false}, foreignKey: 'user_id'});
 Contact.belongsToMany(User, {as: 'Users', through: {model: Purchase, unique: false}, foreignKey: 'contact_id'});
 
 
-
-const uploadedContacts = function(callback, id){
-}
+///////////////////////////////////////////
+/////////////HELPER FUNCTIONS//////////////
+//////////////////////////////////////////
 
 
 const purchasedContacts = function (callback, id) {
@@ -137,18 +165,13 @@ const purchasedContacts = function (callback, id) {
 }
 
 
-
-
-
-
-
-
-
-
+////////////////////
+///// EXPORTS //////
+////////////////////
 
 module.exports.sequelize = sequelize;
 module.exports.User = User;
 module.exports.Contact = Contact;
 module.exports.Purchase = Purchase;
-module.exports.uploadedContacts = uploadedContacts;
 module.exports.purchasedContacts = purchasedContacts
+
