@@ -24,7 +24,8 @@ class DashBody extends React.Component {
       currentLead: {},
       contact: null,
       searchedContacts: [],
-      contactView: null
+      contactView: null,
+      renderContactList: false
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -37,6 +38,7 @@ class DashBody extends React.Component {
     this.purchasedView = this.purchasedView.bind(this);
     this.uploadContact = this.uploadContact.bind(this);
     this.contactPurchase = this.contactPurchase.bind(this);
+    this.renderContactList = this.renderContactList.bind(this);
   }
 
 componentWillMount(){
@@ -136,6 +138,9 @@ contactPurchase(contactId){
       console.log(err)
     })
 }
+renderContactList(){
+  this.setState({renderContactList: true})
+}
 
 
 render(){
@@ -144,12 +149,10 @@ render(){
       <Grid container spacing={24}>
         <Grid item xs>
         <div className="left-top-display">
-          <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView}/>
-
+          <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView} renderContactList={this.renderContactList}/>
         </div>
-      
-        <div className="left-bottom-display">
 
+        <div className="left-bottom-display">
           <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
             selectedView={this.state.selectedView} selectContact={this.selectContact} 
             searchContact={this.searchContact} uploadContact={this.uploadContact}/>
