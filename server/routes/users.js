@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../../database/index.js')
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const axios = require('axios');
 
 
 
@@ -11,18 +12,33 @@ const Op = Sequelize.Op;
 router.post('/:id/upload',(req,res)=>{
   const userId = req.params.id
   const upload = req.body
-  return db.Contact.create({
-    name: upload.name,
-    position: upload.position,
-    company: upload.company,
-    industry: upload.industry,
-    phone: upload.phone,
-    email: upload.email,
-    Address: upload.address,
-    verified: false,
-    times_purchased: 0,
-    userId: userId
-  })
+  const phone = upload.phone.split([' ', '-']).join('')
+  axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=9e8599a8394e472097c3086f8eebaaf2&phone=${phone}`)
+    .then((result) => {
+      const lastName = result.data.belongs_to[0].lastname.toLowerCase();
+      const firstName = result.data.belongs_to[0].firstname.toLowerCase();
+      const submittedName = upload.name.toLowerCase();
+      if (submittedName.includes(lastName) || submittedName.includes(firstName)){
+        return true
+      }
+      else {
+        return false
+      }
+    })
+    .then((verified)=>{
+      return db.Contact.create({
+        name: upload.name,
+        position: upload.position,
+        company: upload.company,
+        industry: upload.industry,
+        phone: upload.phone,
+        email: upload.email,
+        Address: upload.address,
+        verified: verified,
+        times_purchased: 0,
+        userId: userId
+      })
+    })
     .then((result)=>{
       return db.User.findOne({
         where:{
