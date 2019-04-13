@@ -113,6 +113,9 @@ uploadContact(contact){
     body: JSON.stringify(contact)
   }
   this.props.auth.fetch(`/api/users/${this.props.userId}/upload`, options)
+.then((result)=>{
+    this.props.updatePoints()
+})
 }
 
 contactPurchase(contactId){

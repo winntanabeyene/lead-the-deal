@@ -71,7 +71,6 @@ class UserHeader extends React.Component {
     const { isLoggedIn } = this.props;
     const { logOutUser } = this.props;
     
-    
     return (
       <div className={classes.root}>
       <AppBar position="static">
