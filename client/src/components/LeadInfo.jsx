@@ -9,34 +9,75 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import { Divider } from '@material-ui/core';
+
+
+
+
+const styles = {
+  card: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
+  },
+};
+
+
 
 const Practice = ({currentLead, contactView, contactPurchase}) => {
+  
+  
   if (contactView === 'access'){
     return (
-      <div>
-        WTF WTF WTF
-        <div>{currentLead.name}</div>
-        <div>{currentLead.company}</div>
-        <div>{currentLead.position}</div>
-        <div>{currentLead.industry}</div>
-        <div>{currentLead.phone}</div>
-        <div>{currentLead.email}</div>
-        <div>{currentLead.Address}</div>
+      <div className="contact-card">
+
+        <Card>
+          <CardActionArea>
+            <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              <div>{currentLead.name}</div>
+          </Typography>
+          <Divider/>
+              <div className="contact-info">
+              <div><strong>Company:</strong> {currentLead.company}</div>
+              <div><strong>Position:</strong> {currentLead.position}</div>
+              <div><strong>Industry: </strong>{currentLead.industry}</div>
+              <div><strong>Phone:</strong> {currentLead.phone}</div>
+              <div><strong>e-mail: </strong>{currentLead.email}</div>
+              <div><strong>Address: </strong>{currentLead.Address}</div>
+              </div>
+            </CardContent>
+          </CardActionArea>
+        </Card>
       </div>
+    
     )
   }
     else if (contactView === 'limited') {
       return (
-        <div>
-          <div>{currentLead.name}</div>
-          <div>{currentLead.company}</div>
-          <div>{currentLead.position}</div>
-          <div>{currentLead.industry}</div>
-          <div>
-          <Button size="small" variant="contained" onClick={()=>contactPurchase(currentLead.id)}>
+        <div className="contact-card">
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                   <div><strong></strong>{currentLead.name}</div>
+                </Typography>
+          <Divider/>
+          <div className="contact-info">
+            <div><strong>Company: </strong> {currentLead.company}</div>
+            <div><strong>Position:</strong> {currentLead.position}</div>
+            <div><strong>Industry:</strong> {currentLead.industry}</div>
+          </div>
+                <CardActions>
+          <Button size="small" variant="contained" color="primary" onClick={()=>contactPurchase(currentLead.id)}>
             Purchase This Contact
           </Button>
-          </div>
+                </CardActions>
+              </CardContent>
+            </CardActionArea>
+          </Card>
         </div>
       )
 
