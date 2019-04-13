@@ -300,7 +300,7 @@ app.use(errorHandler);
 
 //{force: true}
 db.sequelize
-  .sync()
+  .sync({ force: true })
   .then(result => {
     console.log('succesfully connected to database', result);
   })

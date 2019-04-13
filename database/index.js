@@ -14,13 +14,9 @@ const dbName = process.env.dbName || 'lead_the_deal'
 //   dialect: 'mysql',
 //   host: host,
 // });
-// const sequelize = new Sequelize('lead_the_deal', username, password, {
-//   host: host,
-//   // port: 3306,
-//   dialect: 'mysql'
-// });
 
-const sequelize = new Sequelize('lead_the_deal', 'leadthedeal', process.env.AWSPASS, {
+
+const sequelize = new Sequelize('lead_the_deal', 'leadthedeal', 'leadthedeal', {
   host: 'leadthedeal.co5uhag2jtpo.us-east-2.rds.amazonaws.com',
   port: 3306,
   dialect: 'mysql'
@@ -99,7 +95,7 @@ const Contact = sequelize.define('contact', {
   phone: Sequelize.STRING,
   email: Sequelize.STRING,
   Address: Sequelize.STRING,
-  verified: Sequelize.STRING,
+  verified: Sequelize.BOOLEAN,
   times_purchased: {
     type: Sequelize.INTEGER,
     defaultValue: 0
