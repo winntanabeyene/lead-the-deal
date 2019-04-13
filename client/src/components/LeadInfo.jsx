@@ -27,9 +27,15 @@ const styles = {
 
 
 const Practice = ({currentLead, contactView, contactPurchase}) => {
-  
-  
+  console.log(currentLead)
+  let verified;
   if (contactView === 'access'){
+    if (currentLead.verified) {
+      verified = "Lead the Deal Verified"
+    }
+    else {
+      verified = "Not verified"
+    }
     return (
       <div className="contact-card">
 
@@ -47,6 +53,8 @@ const Practice = ({currentLead, contactView, contactPurchase}) => {
               <div><strong>Phone:</strong> {currentLead.phone}</div>
               <div><strong>e-mail: </strong>{currentLead.email}</div>
               <div><strong>Address: </strong>{currentLead.Address}</div>
+              <div><strong>Verified:</strong> {verified}</div>
+
               </div>
             </CardContent>
           </CardActionArea>
@@ -56,6 +64,13 @@ const Practice = ({currentLead, contactView, contactPurchase}) => {
     )
   }
     else if (contactView === 'limited') {
+      let verified;
+      if (currentLead.verified){
+        verified = "Lead the Deal Verified"
+      }
+      else{
+        verified = "Not verified"
+      }
       return (
         <div className="contact-card">
           <Card>
@@ -69,6 +84,7 @@ const Practice = ({currentLead, contactView, contactPurchase}) => {
             <div><strong>Company: </strong> {currentLead.company}</div>
             <div><strong>Position:</strong> {currentLead.position}</div>
             <div><strong>Industry:</strong> {currentLead.industry}</div>
+            <div><strong>Verified:</strong> {verified}</div>
           </div>
                 <CardActions>
           <Button size="small" variant="contained" color="primary" onClick={()=>contactPurchase(currentLead.id)}>
