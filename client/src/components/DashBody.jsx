@@ -39,10 +39,15 @@ class DashBody extends React.Component {
     this.contactPurchase = this.contactPurchase.bind(this);
   }
 
-componentDidMount(){
+componentWillMount(){
  this.props.history.push('/dashboard')
+ document.body.style.backgroundImage = 'none';
+
 }
 
+componentWillUnmount(){
+  document.body.style.backgroundImage = "url('./brainstorm_business.jpg')"
+}
 
 selectView(button){
   this.setState({selectedView: button})

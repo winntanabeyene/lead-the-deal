@@ -17,9 +17,6 @@
   box-shadow: 4px 4px 4px grey;
 }
 
-.intro-body {
-  background-image: './brainstorm_business.png'
-}
 
 .contact-card{
   margin-top: 20px;
@@ -27,4 +24,9 @@
 
 .contact-info{
   margin-top: 8px;
+}
+
+body{
+  background-image: url('./brainstorm_business.jpg');
+  background-size: cover;
 }
