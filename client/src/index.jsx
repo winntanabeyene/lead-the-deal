@@ -10,6 +10,22 @@ import Axios from 'axios';
 import AuthService from './components/AuthService.js';
 import UserHeader from './components/UserHeader.jsx';
 
+
+//Material UI stuff
+
+import Paper from '@material-ui/core/Paper';
+import Image from '../dist/brainstorm_business.png'
+
+
+const styles = {
+  paperContainer: {
+    backgroundImage: `url(${Image})`
+  }
+};
+
+
+
+
 class App extends React.Component {
 
 
@@ -77,10 +93,6 @@ loginUser(username, password){
         userId: res.id
       })
 
-      //redirect user
-
-
-      console.log(this.props);
     }).catch((err) => {
       alert(err.message);
     });
@@ -110,16 +122,19 @@ logOutUser(){
       <Route exact path='/dashboard' />
         </div>
         : 
-        <div>
-        <DashboardHeader isLoggedin={this.state.isLoggedin} logOutUser={this.logOutUser}/>
+        <div className='intro-body' >
 
+        <DashboardHeader isLoggedin={this.state.isLoggedin} logOutUser={this.logOutUser}/>
+          {/* <img src={require('../dist/brainstorm_business.png')} alt=""/> */}
           <Route path='/register'
             render={(routeProps) => (<Register {...routeProps} registerUser={this.registerUser} />)}
             />
           <Route path='/login'
             render={(routeProps) => (<Login {...routeProps} Auth={this.Auth} isLoggedin={this.state.isLoggedin} loginUser={this.loginUser} />)}
             />
-            </div>
+        <Paper style={styles.paperContainer}>
+        </Paper>
+        </div>
 
         }
 

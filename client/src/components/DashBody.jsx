@@ -149,7 +149,7 @@ render(){
         </div>
 
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
         <div>
         </div>
           <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
