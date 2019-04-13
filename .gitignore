@@ -62,4 +62,3 @@ typings/
 
 # configuration
 config.js
-client/dist/bundle.js
