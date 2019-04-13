@@ -9,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import NavigationIcon from '@material-ui/icons/Navigation';
 
 
-const ButtonList = ({selectView, uploadedView, purchasedView }) => {
+const ButtonList = ({selectView, uploadedView, purchasedView, renderContactList }) => {
   const styles = theme => ({
     margin: {
       margin: theme.spacing.unit,
@@ -24,28 +24,29 @@ const ButtonList = ({selectView, uploadedView, purchasedView }) => {
       <div>
       <h3>{'DASHBOARD'}</h3>
       </div>
-      <div onClick={()=>{uploadedView()}}>
+      <div onClick={()=>{uploadedView(); }}>
         <Button size="medium">
           Uploaded Contacts
         </Button>
       </div>
       <div>
-        <Button size="medium" onClick={() => {purchasedView()}}>
+        <Button size="medium" onClick={() => {purchasedView(); renderContactList()}}>
         Purchased Contacts
       </Button>
       </div>
       <div>
-        <Button size="medium" onClick={() => { selectView('upload') }}>
+        <Button size="medium" onClick={() => { selectView('upload'); renderContactList() }}>
           Upload Contact
         </Button>
       </div>
       <div>
-      <Button size="medium" onClick={()=>{selectView('search')}}>
+      <Button size="medium" onClick={()=>{selectView('search'); renderContactList()}}>
         Search for New Contacts
       </Button>
       </div>
     </div>
   )
 }
+
 
 export default ButtonList;

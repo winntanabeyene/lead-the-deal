@@ -19,6 +19,7 @@ router.post('/:id/upload',(req,res)=>{
     phone: upload.phone,
     email: upload.email,
     Address: upload.address,
+    verified: false,
     times_purchased: 0,
     userId: userId
   })
