@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"data:image/jpeg;base64,bW9kdWxlLmV4cG9ydHMgPSBfX3dlYnBhY2tfcHVibGljX3BhdGhfXyArICJlZmU3MmUxMTBlMzI5YjRmOGQwY2U4YzMyYzM0ZWU3MC5qcGciOw==\"\n\n//# sourceURL=webpack:///./client/dist/brainstorm_business.jpg?");
+eval("throw new Error(\"Module build failed (from ./node_modules/file-loader/dist/cjs.js):\\nError: ENOENT: no such file or directory, open '/home/arnulfo/Documents/operation-spark/tenedor/client/dist/brainstorm_business.jpg'\");\n\n//# sourceURL=webpack:///./client/dist/brainstorm_business.jpg?");
 
 /***/ }),
 
