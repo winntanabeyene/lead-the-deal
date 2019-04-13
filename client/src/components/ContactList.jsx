@@ -10,7 +10,8 @@ import FormView from './FormView.jsx'
 
 
 const ContactList = ({uploaded, purchased, selectedView, selectContact, searchContact, uploadContact}) => {
-  if (selectedView === 'uploaded'){
+
+  if (selectedView === 'uploaded' && uploaded){
     if (uploaded.length > 0){
       return (
         <div>
@@ -37,7 +38,7 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
       )
     }
   }
-  else if (selectedView === 'purchased'){
+  else if (selectedView === 'purchased' && purchased){
     if (purchased.length >0){
       return (
         <div>

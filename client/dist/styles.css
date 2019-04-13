@@ -1,0 +1,36 @@
+.left-bottom-display {
+  background-color: azure;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 8px;
+  box-shadow: 4px 4px 4px grey;
+}
+
+
+.left-top-display {
+  background-color: azure;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 8px;
+  box-shadow: 4px 4px 4px grey;
+}
+
+
+.contact-card{
+  margin-top: 20px;
+}
+
+.contact-info{
+  margin-top: 8px;
+}
+
+body{
+  background-image: url('./leaddeal.png');
+  background-size: cover;
+}
+
+/* .intro-body{
+    background-image: url('./lead_the_deal.png');
+} */

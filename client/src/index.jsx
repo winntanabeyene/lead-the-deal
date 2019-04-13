@@ -10,6 +10,19 @@ import Axios from 'axios';
 import AuthService from './components/AuthService.js';
 import UserHeader from './components/UserHeader.jsx';
 
+
+//Material UI stuff
+
+
+const styles = {
+  paperContainer: {
+    backgroundImage: `url(${Image})`
+  }
+};
+
+
+
+
 class App extends React.Component {
 
 
@@ -18,9 +31,10 @@ class App extends React.Component {
     this.state = {
       isLoggedin: false,
       userId: null,
-      redirectTo: ''
+      redirectTo: '',
+      points: null
     }
-
+    this.updatePoints = this.updatePoints.bind(this);
     this.registerUser = this.registerUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.logOutUser = this.logOutUser.bind(this);
@@ -30,23 +44,31 @@ class App extends React.Component {
 
 
 componentWillMount() {
-    if (this.Auth.loggedIn()){
-      this.setState({
-        isLoggedin: true,
-        redirectTo: '/dashboard'
-      })
-    } else{
-      this.setState({
-        isLoggedin: false
-      })
-    }
+  //   if (this.Auth.loggedIn()){
+  //     this.setState({
+  //       isLoggedin: true,
+  //       redirectTo: '/dashboard'
+  //     })
+  //   } else{
+  //     this.setState({
+  //       isLoggedin: false
+  //     })
+  //   }
   }
 
 componentDidMount(){
   
-this.setState({
-  isLoggedin: false
-})
+  // Axios.get(`/api/users/${this.props.userId}`)
+  //   .then((result) => {
+  //     console.log(result);
+  //     console.log(result.data.points, "componentdidMount")
+  //     this.setState({
+  //       points: result.data.points
+  //     })
+  //   }).catch((err) => {
+  //     console.error(err);
+  //   });
+
 }
 
 registerUser(user){
@@ -76,7 +98,7 @@ loginUser(username, password){
         isLoggedin: true,
         userId: res.id
       })
-      console.log(this.props);
+
     }).catch((err) => {
       alert(err.message);
     });
@@ -90,6 +112,10 @@ logOutUser(){
     redirectTo: '/login'
   })
 }
+updatePoints(){
+  console.log('hello')
+  this.setState({ points: this.state.points + 1})
+}
 
 
   render(){
@@ -100,22 +126,23 @@ logOutUser(){
         {this.state.isLoggedin ? 
         <div>
 
-      <UserHeader logOutUser={this.logOutUser} userId={this.state.userId}/>
-      <DashBody /> 
+            <UserHeader logOutUser={this.logOutUser} userId={this.state.userId} points={this.state.points}/>
+      <DashBody auth={this.Auth} userId={this.state.userId} updatePoints={this.updatePoints}/> 
     
-      <Route exact path='/dashboard' component={DashBody} />
+      <Route exact path='/dashboard' />
         </div>
         : 
-        <div>
+        <div className='intro-body' >
+       
+       
         <DashboardHeader isLoggedin={this.state.isLoggedin} logOutUser={this.logOutUser}/>
-
           <Route path='/register'
             render={(routeProps) => (<Register {...routeProps} registerUser={this.registerUser} />)}
             />
           <Route path='/login'
             render={(routeProps) => (<Login {...routeProps} Auth={this.Auth} isLoggedin={this.state.isLoggedin} loginUser={this.loginUser} />)}
             />
-            </div>
+        </div>
 
         }
 

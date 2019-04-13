@@ -84,6 +84,8 @@ export default class AuthService {
       .then(response => response.json())
   }
 
+
+
   _checkStatus(response) {
     // raises an error in case response status is not a success
     if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300

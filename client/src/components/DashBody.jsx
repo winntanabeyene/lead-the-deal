@@ -8,7 +8,7 @@ import LeadInfo from './LeadInfo.jsx'
 import ButtonList from './ButtonList.jsx'
 import ContactList from './ContactList.jsx'
 import SearchView from './SearchView.jsx'
-
+import { withRouter } from 'react-router'
 import axios from 'axios';
 
 
@@ -24,7 +24,8 @@ class DashBody extends React.Component {
       currentLead: {},
       contact: null,
       searchedContacts: [],
-      contactView: null
+      contactView: null,
+      renderContactList: false
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -37,22 +38,42 @@ class DashBody extends React.Component {
     this.purchasedView = this.purchasedView.bind(this);
     this.uploadContact = this.uploadContact.bind(this);
     this.contactPurchase = this.contactPurchase.bind(this);
+    this.renderContactList = this.renderContactList.bind(this);
   }
+
+componentWillMount(){
+ this.props.history.push('/dashboard')
+ document.body.style.backgroundImage = 'none';
+
+}
+
+componentWillUnmount(){
+  document.body.style.backgroundImage = "url('./leaddeal.png')"
+}
 
 selectView(button){
   this.setState({selectedView: button})
 }
 
 uploadedView(){
-  axios.get(`/api/users/:${'userId'}/uploaded_contacts`)
-    .then((uploadedContacts)=>{
-      this.setState({uploaded: uploadedContacts.data, selectedView: 'uploaded'})
+  this.props.auth.fetch(`/api/users/${this.props.userId}/uploaded_contacts`)
+    .then((uploadedContacts) => {
+      console.log(uploadedContacts.data)
+      this.setState({ uploaded: uploadedContacts, selectedView: 'uploaded' })
+    })
+    .catch((err)=>{
+      console.log(err);
     })
 }
 purchasedView(){
-  axios.get(`/api/users/:${'userId'}/purchased_contacts`)
+  console.log('get logged in')
+  this.props.auth.fetch(`/api/users/${this.props.userId}/purchased_contacts`)
     .then((purchasedContacts) => {
-      this.setState({ purchased: purchasedContacts.data, selectedView: 'purchased' })
+      console.log(purchasedContacts)
+      this.setState({ purchased: purchasedContacts, selectedView: 'purchased' })
+    })
+    .catch((err)=>{
+      console.log(err);
     })
 }
 
@@ -76,57 +97,98 @@ selectContact(contactId, list, view){
 
 searchContact(query){
   console.log(query)
- axios.post('/api/search', query)
-  .then((contacts) => {
-    console.log(contacts)
-    this.setState({
-      searchedContacts: contacts.data,
-      selectedView: 'searched',
-    })
-  }).catch((err) => {
-    console.log(err)
-  });
-}
-
-uploadContact(contact){
-  axios.post('/api/upload', contact)
-    .then((results) => {
-      console.log(results)
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(query)
+  }
+  this.props.auth.fetch(`/api/users/search/${this.props.userId}`, options)
+    .then((contacts) => {
+      console.log(contacts)
+      this.setState({
+        searchedContacts: contacts,
+        selectedView: 'searched',
+      })
     }).catch((err) => {
       console.log(err)
     });
 }
 
+uploadContact(contact){
+  console.log(this.props.userId)
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(contact)
+  }
+  this.props.auth.fetch(`/api/users/${this.props.userId}/upload`, options)
+.then((result)=>{
+    this.props.updatePoints()
+})
+}
+
 contactPurchase(contactId){
   console.log(contactId)
-  axios.post(`/api/contact_purchase/:${contactId}`)
-  .then((result)=>{
-    this.purchasedView()
-  })
-  .catch((err)=>{
-    console.log(err)
-  })
+  const options = {
+    method: 'POST',
+  }
+  this.props.auth.fetch(`/api/users/purchase_contact/${this.props.userId}/${contactId}`, options)
+    .then((result)=>{
+      console.log(result)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+}
+renderContactList(){
+  this.setState({renderContactList: true})
 }
 
 
 render(){
-  return (
-    <div>
-      <Grid container spacing={24}>
-        <Grid item xs>
-          <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView}/>
-          <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
-            selectedView={this.state.selectedView} selectContact={this.selectContact} 
-            searchContact={this.searchContact} uploadContact={this.uploadContact}/>
-          <SearchView searchedContacts={this.state.searchedContacts} selectedView={this.state.selectedView} selectContact={this.selectContact}/>
-
+  if (this.state.renderContactList)
+  {
+    return (
+      <div>
+        <Grid container spacing={24}>
+          <Grid item xs>
+          <div className="left-top-display">
+            <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView} renderContactList={this.renderContactList}/>
+          </div>
+  
+          <div className="left-bottom-display">
+            <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
+              selectedView={this.state.selectedView} selectContact={this.selectContact} 
+              searchContact={this.searchContact} uploadContact={this.uploadContact}/>
+            <SearchView searchedContacts={this.state.searchedContacts} selectedView={this.state.selectedView} selectContact={this.selectContact}/>
+          </div>
+  
+          </Grid>
+          <Grid item xs={9}>
+          <div>
+          </div>
+            <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
+          </Grid>
         </Grid>
-        <Grid item xs={8}>
-          <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
+      </div>
+    );
+  }
+  else {
+    return (
+      <div>
+        <Grid container spacing={24}>
+          <Grid item xs>
+            <div className="left-top-display">
+              <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView} renderContactList={this.renderContactList} />
+            </div>
+          </Grid>
+          <Grid item xs={9}>
+            <div>
+            </div>
+            <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase} />
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 
@@ -147,4 +209,4 @@ const styles = theme => ({
 });
 
 
-export default withStyles(styles)(DashBody);
+export default withRouter(withStyles(styles)(DashBody));
