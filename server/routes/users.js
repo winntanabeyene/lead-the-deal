@@ -12,18 +12,37 @@ const axios = require('axios');
 router.post('/:id/upload',(req,res)=>{
   const userId = req.params.id
   const upload = req.body
-  const phone = upload.phone.split([' ', '-']).join('')
+  let phone = upload.phone.split([' ', '-']).join('').substring(0,10)
+  let lastName;
+  let firstName;
+  var isNum = /^\d+$/.test(phone);
+  if (isNum === false){
+    phone = 5555555555
+  }
   axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=${process.env.WHITEPASS}&phone=${phone}`)
     .then((result) => {
-      const lastName = result.data.belongs_to[0].lastname.toLowerCase();
-      const firstName = result.data.belongs_to[0].firstname.toLowerCase();
-      const submittedName = upload.name.toLowerCase();
-      if (submittedName.includes(lastName) || submittedName.includes(firstName)){
-        return true
+      if (phone === 5555555555 || !result.data.belongs_to[0]){
+        return false
+      }
+      if (result.data.belongs_to[0].lastname){
+        lastName = result.data.belongs_to[0].lastname.toLowerCase();
+      }
+      else{
+        return false
+      }
+      if (result.data.belongs_to[0].firstname){
+        firstName = result.data.belongs_to[0].firstname.toLowerCase();
       }
       else {
         return false
       }
+    const submittedName = upload.name.toLowerCase();
+    if (submittedName.includes(lastName) || submittedName.includes(firstName)){
+      return true
+    }
+    else {
+      return false
+    }
     })
     .then((verified)=>{
       return db.Contact.create({
