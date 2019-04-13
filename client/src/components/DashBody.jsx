@@ -46,7 +46,7 @@ componentWillMount(){
 }
 
 componentWillUnmount(){
-  document.body.style.backgroundImage = "url('./brainstorm_business.jpg')"
+  document.body.style.backgroundImage = "url('./leaddeal.png')"
 }
 
 selectView(button){
