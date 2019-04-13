@@ -34,9 +34,10 @@ class App extends React.Component {
     this.state = {
       isLoggedin: false,
       userId: null,
-      redirectTo: ''
+      redirectTo: '',
+      points: null
     }
-
+    this.updatePoints = this.updatePoints.bind(this);
     this.registerUser = this.registerUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.logOutUser = this.logOutUser.bind(this);
@@ -60,9 +61,17 @@ componentWillMount() {
 
 componentDidMount(){
   
-// this.setState({
-//   isLoggedin: false
-// })
+  // Axios.get(`/api/users/${this.props.userId}`)
+  //   .then((result) => {
+  //     console.log(result);
+  //     console.log(result.data.points, "componentdidMount")
+  //     this.setState({
+  //       points: result.data.points
+  //     })
+  //   }).catch((err) => {
+  //     console.error(err);
+  //   });
+
 }
 
 registerUser(user){
@@ -106,6 +115,10 @@ logOutUser(){
     redirectTo: '/login'
   })
 }
+updatePoints(){
+  console.log('hello')
+  this.setState({ points: this.state.points + 1})
+}
 
 
   render(){
@@ -116,8 +129,8 @@ logOutUser(){
         {this.state.isLoggedin ? 
         <div>
 
-      <UserHeader logOutUser={this.logOutUser} userId={this.state.userId}/>
-      <DashBody auth={this.Auth} userId={this.state.userId}/> 
+            <UserHeader logOutUser={this.logOutUser} userId={this.state.userId} points={this.state.points}/>
+      <DashBody auth={this.Auth} userId={this.state.userId} updatePoints={this.updatePoints}/> 
     
       <Route exact path='/dashboard' />
         </div>
