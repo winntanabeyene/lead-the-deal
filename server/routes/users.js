@@ -13,7 +13,7 @@ router.post('/:id/upload',(req,res)=>{
   const userId = req.params.id
   const upload = req.body
   const phone = upload.phone.split([' ', '-']).join('')
-  axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=9e8599a8394e472097c3086f8eebaaf2&phone=${phone}`)
+  axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=${process.env.WHITEPASS}&phone=${phone}`)
     .then((result) => {
       const lastName = result.data.belongs_to[0].lastname.toLowerCase();
       const firstName = result.data.belongs_to[0].firstname.toLowerCase();
