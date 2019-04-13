@@ -11,7 +11,7 @@ const Op = Sequelize.Op;
 router.post('/:id/upload',(req,res)=>{
   const userId = req.params.id
   const upload = req.body
-  db.Contact.create({
+  return db.Contact.create({
     name: upload.name,
     position: upload.position,
     company: upload.company,
@@ -22,7 +22,28 @@ router.post('/:id/upload',(req,res)=>{
     times_purchased: 0,
     userId: userId
   })
-    .then((result) => {
+    .then((result)=>{
+      return db.User.findOne({
+        where:{
+          id: userId
+        }
+      })
+    })
+    .then((user)=>{
+      return user.points
+    })
+    .then((points) => {
+      const newPoints = points + 1
+      return db.User.update(
+        {points: newPoints},
+        {where:{
+          id: userId
+        }}
+      )
+    })
+
+
+    .then((result)=>{
       console.log(result)
     })
     .catch((err) => {
@@ -131,6 +152,27 @@ router.post(`/purchase_contact/:id/:contactId`, (req, res) => {
     contact_id: contactId,
   })
     .then((result) => {
+      return db.User.findOne({
+        where: {
+          id: userId
+        }
+      })
+    })
+    .then((user) => {
+      return user.points
+    })
+    .then((points) => {
+      const newPoints = points - 1
+      return db.User.update(
+        { points: newPoints },
+        {
+          where: {
+            id: userId
+          }
+        }
+      )
+    })
+    .then((result)=>{
       console.log(result)
     })
     .catch((err) => {

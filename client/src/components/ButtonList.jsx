@@ -22,7 +22,7 @@ const ButtonList = ({selectView, uploadedView, purchasedView }) => {
   return (
     <div>
       <div>
-      <h3>{'YOUR COMPANY HERE'}</h3>
+      <h3>{'DASHBOARD'}</h3>
       </div>
       <div onClick={()=>{uploadedView()}}>
         <Button size="medium">
