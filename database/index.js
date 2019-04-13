@@ -20,7 +20,7 @@ const dbName = process.env.dbName || 'lead_the_deal'
 //   dialect: 'mysql'
 // });
 
-const sequelize = new Sequelize('lead_the_deal', 'leadthedeal', process.env.mySql, {
+const sequelize = new Sequelize('lead_the_deal', 'leadthedeal', process.env.AWSPASS, {
   host: 'leadthedeal.co5uhag2jtpo.us-east-2.rds.amazonaws.com',
   port: 3306,
   dialect: 'mysql'
