@@ -123,7 +123,8 @@ router.post('/search/:id', (req, res) => {
           industry: query.industry,
           position: query.position,
           Address: query.address,
-          id: { [Op.notIn]: contactId }
+          id: { [Op.notIn]: contactId },
+          userId: {[Op.ne]: req.params.id}
         }
       })
         .then((contacts) => {

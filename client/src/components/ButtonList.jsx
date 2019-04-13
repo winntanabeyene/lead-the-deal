@@ -41,7 +41,7 @@ const ButtonList = ({selectView, uploadedView, purchasedView }) => {
       </div>
       <div>
       <Button size="medium" onClick={()=>{selectView('search')}}>
-        Search for Contacts
+        Search for New Contacts
       </Button>
       </div>
     </div>
