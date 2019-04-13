@@ -21,7 +21,7 @@ const dbName = process.env.dbName || 'lead_the_deal'
 // });
 
 const sequelize = new Sequelize('lead_the_deal', 'leadthedeal', process.env.AWSPASS, {
-  host: 'leadthedeal.co5uhag2jtpo.us-east-2.rds.amazonaws.com',
+  host: 'ec2-3-19-74-173.us-east-2.compute.amazonaws.com',
   port: 3306,
   dialect: 'mysql'
 });
