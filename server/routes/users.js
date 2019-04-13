@@ -171,6 +171,7 @@ router.post('/search/:id', (req, res) => {
             searchRes.company = contact.company
             searchRes.industry = contact.industry;
             searchRes.position = contact.position;
+            searchRes.verified = contact.verified;
             return searchRes;
           })
           res.send(noContactInfo)
