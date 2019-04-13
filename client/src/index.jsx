@@ -13,9 +13,6 @@ import UserHeader from './components/UserHeader.jsx';
 
 //Material UI stuff
 
-import Paper from '@material-ui/core/Paper';
-import Image from '../dist/brainstorm_business.jpg'
-
 
 const styles = {
   paperContainer: {
@@ -136,12 +133,9 @@ updatePoints(){
         </div>
         : 
         <div className='intro-body' >
-        {/* <div style="background-image: url(./brainstorm_business.jpg); height: 400px; width: 400px;"></div> */}
-          {/* <Paper style={styles.paperContainer}> 
-
-          </Paper> */}
+       
+       
         <DashboardHeader isLoggedin={this.state.isLoggedin} logOutUser={this.logOutUser}/>
-          {/* <img src={require('../dist/brainstorm_business.png')} alt=""/> */}
           <Route path='/register'
             render={(routeProps) => (<Register {...routeProps} registerUser={this.registerUser} />)}
             />
