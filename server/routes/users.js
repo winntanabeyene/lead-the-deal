@@ -232,12 +232,50 @@ router.get(`/comments/:id/:contactId`, (req,res)=>{
       contact_id: contactId
     }
   })
-  .then((result)=>{
-    res.send(result)
+    .then((comments) => {
+      const commentData = comments.map((comment) => {
+        const data = {};
+        data.date = comment.createdAt
+        data.comment = comment.comment
+        data.commentId = comment.id
+        return data
+      })
+      res.send(commentData)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+router.post(`/comments/:id/:contactId`, (req, res) => {
+  const userId = req.params.id;
+  const contactId = req.params.contactId
+  return db.Comment.create({
+      user_id: userId,
+      contact_id: contactId,
+      comment: req.body.body
   })
-  .catch((err)=>{
-    console.log(err)
-  })
+    .then((result) => {
+      return db.Comment.findAll({
+        where: {
+          user_id: userId,
+          contact_id: contactId,
+        }
+      })
+    })
+    .then((comments)=>{
+      const commentData = comments.map((comment)=>{
+        const data = {};
+        data.date = comment.createdAt
+        data.comment = comment.comment
+        data.commentId = comment.id
+        return data
+      })
+      res.send(commentData)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 })
 
 module.exports = router;

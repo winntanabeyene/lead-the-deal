@@ -26,7 +26,9 @@ class DashBody extends React.Component {
       contact: null,
       searchedContacts: [],
       contactView: null,
-      renderContactList: false
+      renderContactList: false,
+      commentBodyText: '',
+      comments: [{date: 'Add comments to keep track of your leads!', comment: 'The easiest place to keep track of lead data!'}],
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -40,6 +42,8 @@ class DashBody extends React.Component {
     this.uploadContact = this.uploadContact.bind(this);
     this.contactPurchase = this.contactPurchase.bind(this);
     this.renderContactList = this.renderContactList.bind(this);
+    this.handleComment = this.handleComment.bind(this)
+    this.commentBody = this.commentBody.bind(this)
   }
 
 componentWillMount(){
@@ -87,8 +91,9 @@ selectContact(contactId, list, view){
 
 
     this.props.auth.fetch(`/api/users/comments/${this.props.userId}/${contactId}`)
-      .then((contact) => {
-        console.log(contact)
+      .then((comments) => {
+        let revComments = comments.reverse();
+        this.setState({comments: revComments})
       })
       .catch((err) => {
         console.log(err);
@@ -175,6 +180,32 @@ if (this.props.points > 0){
 
 }
 
+handleComment(event){
+  event.preventDefault();
+  const comment = {}
+  comment.body = this.state.commentBodyText
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(comment)
+  }
+  this.props.auth.fetch(`/api/users/comments/${this.props.userId}/${this.state.currentLead.id}`, options)
+    .then((comments) => {
+      let revComments = comments.reverse();
+      this.setState({
+        commentBodyText: '',
+        comments: revComments,
+      })
+    }).catch((err) => {
+      console.log(err)
+      this.setState({
+        commentBodyText: '',
+      })
+    });
+}
+commentBody(comment){
+  this.setState({ commentBodyText: comment })
+}
+
 renderContactList(){
   this.setState({renderContactList: true})
 }
@@ -202,7 +233,10 @@ render(){
           <Grid item xs={9}>
           <div>
           </div>
-            <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
+            <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} 
+            contactPurchase={this.contactPurchase} commentBody={this.commentBody} 
+            handleComment={this.handleComment} comments={this.state.comments}
+            commentBodyText={this.state.commentBodyText}/>
           </Grid>
         </Grid>
       </div>
