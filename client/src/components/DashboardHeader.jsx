@@ -47,12 +47,12 @@ function DashboardHeader(props) {
          :<div>
          <Button color="inherit">
             <Link to="/register">
-              REGISTER
+             <span id="user-info"> <strong>Register</strong> </span> 
           </Link>
           </Button>
           <Button color="inherit">
           <Link to="/login">
-          LOGIN
+             <span id="user-info"> <strong>Login</strong> </span> 
           </Link>          
           </Button> 
          </div> }

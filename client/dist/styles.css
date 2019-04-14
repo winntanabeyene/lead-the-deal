@@ -36,3 +36,8 @@ width: 70%;
 margin: 0 auto;
 display: block;
 }
+
+#user-info{
+  font-family: 'Oswald', sans-serif;
+  color: white;
+}
