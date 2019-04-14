@@ -29,6 +29,7 @@ class DashBody extends React.Component {
       renderContactList: false,
       commentBodyText: '',
       comments: [{date: 'Add comments to keep track of your leads!', comment: 'The easiest place to keep track of lead data!'}],
+      username: ''
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -49,8 +50,10 @@ class DashBody extends React.Component {
 componentWillMount(){
  this.props.history.push('/dashboard')
  document.body.style.backgroundImage = 'none';
-  this.props.getUserPoints();
+this.props.getUserPoints();
+
 }
+
 
 componentWillUnmount(){
   document.body.style.backgroundImage = "url('./leaddeal.png')"
@@ -219,7 +222,11 @@ render(){
         <Grid container spacing={24}>
           <Grid item xs>
           <div className="left-top-display">
-            <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView} renderContactList={this.renderContactList}/>
+            <ButtonList
+            selectView={this.selectView} 
+            uploadedView={this.uploadedView} 
+            purchasedView={this.purchasedView} 
+            renderContactList={this.renderContactList}/>
           </div>
   
           <div className="left-bottom-display">

@@ -64,9 +64,12 @@ class UserHeader extends React.Component {
       <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          You have <div>   - {this.props.points} -   </div> points
+          <img src="./company_logo.png" height="60x" alt="logo"/>
+          &emsp;
+          &emsp;
+          &emsp;
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Lead the Deal
+              <span>@{this.props.username}, you have <span>-{this.props.points}-</span> points </span>
           </Typography>
 
             <div>
