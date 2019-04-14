@@ -131,16 +131,19 @@ uploadContact(contact){
     })
 }
 
-contactPurchase(contactId){
+contactPurchase(event, contactId){
 
-
-  console.log(contactId)
+  console.log(event.target.innerHTML);
+  event.target.innerHTML = 'Contact Purchased';
+  event.target.style.color = 'grey';
+  //console.log(contactId)
   const options = {
     method: 'POST',
   }
   this.props.auth.fetch(`/api/users/purchase_contact/${this.props.userId}/${contactId}`, options)
     .then((result)=>{
-      console.log(result)
+      console.log('i have just purchased this contact',result)
+      this.props.getUserPoints();
     })
     .catch((err)=>{
       console.log(err)

@@ -175,11 +175,13 @@ router.post(`/purchase_contact/:id/:contactId`, (req, res) => {
         }
       )
     })
-    .then((result)=>{
+    .then((modifiedId)=>{
       console.log(result)
+      res.send({modifiedId: modifiedId[0]})
     })
     .catch((err) => {
       console.log(err)
+      res.send(err);
     })
 })
 
