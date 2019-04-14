@@ -43,7 +43,11 @@ const Practice = ({currentLead, contactView, contactPurchase}) => {
           <CardActionArea>
             <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              <div>{currentLead.name}</div>
+            <div>
+              {currentLead.name} 
+              {currentLead.verified ? <span>  <img src="./checked_contact.jpg" width="20px" alt="verified icon"/></span> :
+                    <span>  <img src="./unchecked_contact.jpg" width="20px" alt="unverified icon"/></span> }
+            </div> 
           </Typography>
           <Divider/>
               <div className="contact-info">
