@@ -115,11 +115,6 @@ logOutUser(){
   })
 }
 
-// updatePoints(){
-//   console.log('hello')
-//   this.setState({ points: this.state.points + 1})
-// }
-
 
   render(){
     return(

@@ -79,6 +79,8 @@ purchasedView(){
 }
 
 selectContact(contactId, list, view){
+
+
   if (view === 'access'){
     const contact = this.state[list].filter((contact)=> contact.id === contactId)[0]
     this.setState({
@@ -134,8 +136,7 @@ uploadContact(contact){
 contactPurchase(event, contactId){
 
   console.log(event.target.innerHTML);
-  event.target.innerHTML = 'Contact Purchased';
-  event.target.style.color = 'grey';
+ 
 
 if (this.props.points > 0){
 
@@ -147,6 +148,10 @@ if (this.props.points > 0){
   .then((result)=>{
     console.log('i have just purchased this contact',result)
     this.props.getUserPoints();
+    // document.getElementById('purchase-button').innerHTML = 'Contact Purchased';
+    // document.getElementById('purchase-button').style.color = 'grey';
+    event.target.innerHTML = 'Contact Purchased';
+    event.target.style.color = 'grey';
   })
   .catch((err)=>{
     console.log(err)
