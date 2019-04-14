@@ -31,3 +31,8 @@ body{
   background-size: cover;
 }
 
+#root{
+width: 70%;
+margin: 0 auto;
+display: block;
+}
