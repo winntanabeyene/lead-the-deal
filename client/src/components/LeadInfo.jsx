@@ -11,6 +11,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
+import Input from '@material-ui/core/Input';
 
 
 
@@ -26,8 +27,7 @@ const styles = {
 
 
 
-const Practice = ({currentLead, contactView, contactPurchase}) => {
-  console.log(currentLead)
+const Practice = ({currentLead, contactView, contactPurchase, handleComment, commentBodyText, comments, commentBody}) => {
   let verified;
   if (contactView === 'access'){
     if (currentLead.verified) {
@@ -63,6 +63,47 @@ const Practice = ({currentLead, contactView, contactPurchase}) => {
             </CardContent>
           </CardActionArea>
         </Card>
+        <Card>
+          <CardActionArea>
+            <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              <div>Notes</div>
+          </Typography>
+          <Divider/>
+              <div className="contact-info">
+                <form onSubmit={() => { handleComment(event) }}>
+                  <Input placeholder="Add new comment here" fullWidth={true} required={true}
+                  onChange={(event)=>{commentBody(event.target.value)}} value={commentBodyText}/>
+                  <div>
+                    <Input type="submit" value="Upload"/>
+                  </div>
+                </form>
+              </div>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+        <div>
+          {comments.map((comment,index)=>{
+            return (
+              <div key={index}>
+              <Card>
+                <CardActionArea>
+                  <CardContent>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      <div>{comment.date}</div>
+                    </Typography>
+                    <Divider />
+                    <div className="contact-info">
+                      {comment.comment}
+                    </div>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              </div>
+            )
+
+          })}
+        </div>
       </div>
     
     )
