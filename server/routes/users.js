@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../../database/index.js')
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const axios = require('axios');
 
 
 
@@ -11,17 +12,52 @@ const Op = Sequelize.Op;
 router.post('/:id/upload',(req,res)=>{
   const userId = req.params.id
   const upload = req.body
-  return db.Contact.create({
-    name: upload.name,
-    position: upload.position,
-    company: upload.company,
-    industry: upload.industry,
-    phone: upload.phone,
-    email: upload.email,
-    Address: upload.address,
-    times_purchased: 0,
-    userId: userId
-  })
+  let phone = upload.phone.split([' ', '-']).join('').substring(0,10)
+  let lastName;
+  let firstName;
+  var isNum = /^\d+$/.test(phone);
+  if (isNum === false){
+    phone = 5555555555
+  }
+  axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=${process.env.WHITEPASS}&phone=${phone}`)
+    .then((result) => {
+      if (phone === 5555555555 || !result.data.belongs_to[0]){
+        return false
+      }
+      if (result.data.belongs_to[0].lastname){
+        lastName = result.data.belongs_to[0].lastname.toLowerCase();
+      }
+      else{
+        return false
+      }
+      if (result.data.belongs_to[0].firstname){
+        firstName = result.data.belongs_to[0].firstname.toLowerCase();
+      }
+      else {
+        return false
+      }
+    const submittedName = upload.name.toLowerCase();
+    if (submittedName.includes(lastName) || submittedName.includes(firstName)){
+      return true
+    }
+    else {
+      return false
+    }
+    })
+    .then((verified)=>{
+      return db.Contact.create({
+        name: upload.name,
+        position: upload.position,
+        company: upload.company,
+        industry: upload.industry,
+        phone: upload.phone,
+        email: upload.email,
+        Address: upload.address,
+        verified: verified,
+        times_purchased: 0,
+        userId: userId
+      })
+    })
     .then((result)=>{
       return db.User.findOne({
         where:{
@@ -137,6 +173,7 @@ router.post('/search/:id', (req, res) => {
             searchRes.company = contact.company
             searchRes.industry = contact.industry;
             searchRes.position = contact.position;
+            searchRes.verified = contact.verified;
             return searchRes;
           })
             res.send(noContactInfo)

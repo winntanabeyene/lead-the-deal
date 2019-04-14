@@ -25,7 +25,8 @@ class DashBody extends React.Component {
       currentLead: {},
       contact: null,
       searchedContacts: [],
-      contactView: null
+      contactView: null,
+      renderContactList: false
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -38,7 +39,7 @@ class DashBody extends React.Component {
     this.purchasedView = this.purchasedView.bind(this);
     this.uploadContact = this.uploadContact.bind(this);
     this.contactPurchase = this.contactPurchase.bind(this);
-    this.Auth = new AuthService();
+    this.renderContactList = this.renderContactList.bind(this);
   }
 
 componentWillMount(){
@@ -149,35 +150,57 @@ contactPurchase(event, contactId){
       console.log(err)
     })
 }
+renderContactList(){
+  this.setState({renderContactList: true})
+}
 
 
 render(){
-  return (
-    <div>
-      <Grid container spacing={24}>
-        <Grid item xs>
-        <div className="left-top-display">
-          <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView}/>
-
-        </div>
-      
-        <div className="left-bottom-display">
-
-          <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
-            selectedView={this.state.selectedView} selectContact={this.selectContact} 
-            searchContact={this.searchContact} uploadContact={this.uploadContact}/>
-          <SearchView searchedContacts={this.state.searchedContacts} selectedView={this.state.selectedView} selectContact={this.selectContact}/>
-        </div>
-
+  if (this.state.renderContactList)
+  {
+    return (
+      <div>
+        <Grid container spacing={24}>
+          <Grid item xs>
+          <div className="left-top-display">
+            <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView} renderContactList={this.renderContactList}/>
+          </div>
+  
+          <div className="left-bottom-display">
+            <ContactList uploaded={this.state.uploaded} purchased={this.state.purchased} 
+              selectedView={this.state.selectedView} selectContact={this.selectContact} 
+              searchContact={this.searchContact} uploadContact={this.uploadContact}/>
+            <SearchView searchedContacts={this.state.searchedContacts} selectedView={this.state.selectedView} selectContact={this.selectContact}/>
+          </div>
+  
+          </Grid>
+          <Grid item xs={9}>
+          <div>
+          </div>
+            <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
+          </Grid>
         </Grid>
-        <Grid item xs={9}>
-        <div>
-        </div>
-          <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
+      </div>
+    );
+  }
+  else {
+    return (
+      <div>
+        <Grid container spacing={24}>
+          <Grid item xs>
+            <div className="left-top-display">
+              <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView} renderContactList={this.renderContactList} />
+            </div>
+          </Grid>
+          <Grid item xs={9}>
+            <div>
+            </div>
+            <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase} />
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 
