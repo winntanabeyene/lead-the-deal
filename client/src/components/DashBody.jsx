@@ -81,6 +81,19 @@ purchasedView(){
 selectContact(contactId, list, view){
   if (view === 'access'){
     const contact = this.state[list].filter((contact)=> contact.id === contactId)[0]
+
+
+
+    this.props.auth.fetch(`/api/users/comments/${this.props.userId}/${contactId}`)
+      .then((contact) => {
+        console.log(contact)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+
+
     this.setState({
       currentLead: contact,
       contactView: 'access'

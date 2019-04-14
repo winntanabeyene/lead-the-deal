@@ -222,4 +222,22 @@ router.post(`/purchase_contact/:id/:contactId`, (req, res) => {
     })
 })
 
+
+router.get(`/comments/:id/:contactId`, (req,res)=>{
+  const userId = req.params.id;
+  const contactId = req.params.contactId
+  db.Comment.findAll({
+    where:{
+      user_id: userId,
+      contact_id: contactId
+    }
+  })
+  .then((result)=>{
+    res.send(result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
+
 module.exports = router;
