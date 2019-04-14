@@ -8,7 +8,6 @@ import Paper from '@material-ui/core/Paper';
 
 
 const SearchView = ({searchedContacts, selectedView, selectContact}) => {
-  console.log(selectedView)
   if (selectedView === 'searched' && searchedContacts){
     if (searchedContacts.length > 0){
       return (

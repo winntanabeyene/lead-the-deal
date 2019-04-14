@@ -81,9 +81,11 @@ router.post('/:id/upload',(req,res)=>{
 
     .then((result)=>{
       console.log(result)
+      res.send({updateduserId: result[0]});
     })
     .catch((err) => {
       console.log(err)
+      res.send(err);
     })
 })
 
@@ -174,7 +176,7 @@ router.post('/search/:id', (req, res) => {
             searchRes.verified = contact.verified;
             return searchRes;
           })
-          res.send(noContactInfo)
+            res.send(noContactInfo)
         })
         .catch((err) => {
           res.send(err)
@@ -210,11 +212,13 @@ router.post(`/purchase_contact/:id/:contactId`, (req, res) => {
         }
       )
     })
-    .then((result)=>{
+    .then((modifiedId)=>{
       console.log(result)
+      res.send({modifiedId: modifiedId[0]})
     })
     .catch((err) => {
       console.log(err)
+      res.send(err);
     })
 })
 

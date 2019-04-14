@@ -34,10 +34,10 @@ class App extends React.Component {
       redirectTo: '',
       points: null
     }
-    this.updatePoints = this.updatePoints.bind(this);
     this.registerUser = this.registerUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.logOutUser = this.logOutUser.bind(this);
+    this.getUserPoints = this.getUserPoints.bind(this);
     this.Auth = new AuthService();
   }
 
@@ -56,20 +56,22 @@ componentWillMount() {
   //   }
   }
 
-componentDidMount(){
-  
-  // Axios.get(`/api/users/${this.props.userId}`)
-  //   .then((result) => {
-  //     console.log(result);
-  //     console.log(result.data.points, "componentdidMount")
-  //     this.setState({
-  //       points: result.data.points
-  //     })
-  //   }).catch((err) => {
-  //     console.error(err);
-  //   });
+
+getUserPoints(){
+
+
+  this.Auth.fetch(`/api/users/${this.state.userId}`)
+    .then((user) => {
+      this.setState({
+        points: user.points
+      })
+    })
+    .catch((err) =>{
+      console.error(err);
+    })
 
 }
+
 
 registerUser(user){
 
@@ -112,10 +114,11 @@ logOutUser(){
     redirectTo: '/login'
   })
 }
-updatePoints(){
-  console.log('hello')
-  this.setState({ points: this.state.points + 1})
-}
+
+// updatePoints(){
+//   console.log('hello')
+//   this.setState({ points: this.state.points + 1})
+// }
 
 
   render(){
@@ -126,8 +129,8 @@ updatePoints(){
         {this.state.isLoggedin ? 
         <div>
 
-            <UserHeader logOutUser={this.logOutUser} userId={this.state.userId} points={this.state.points}/>
-      <DashBody auth={this.Auth} userId={this.state.userId} updatePoints={this.updatePoints}/> 
+      <UserHeader logOutUser={this.logOutUser} userId={this.state.userId} points={this.state.points}/>
+      <DashBody auth={this.Auth} userId={this.state.userId} updatePoints={this.updatePoints} getUserPoints={this.getUserPoints}/> 
     
       <Route exact path='/dashboard' />
         </div>

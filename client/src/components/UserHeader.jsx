@@ -44,17 +44,6 @@ class UserHeader extends React.Component {
    
     this.props.history.push('/dashboard');
   
-   if (this.props.userId)
-
-   Axios.get(`/api/users/${this.props.userId}`)
-    .then((result) => {
-      console.log(result);
-      this.setState({
-        points: result.data.points
-      })
-    }).catch((err) => { 
-      console.error(err);
-    });
 
   }
 
@@ -75,7 +64,7 @@ class UserHeader extends React.Component {
       <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          You have <div>{this.state.points}</div> points
+          You have <div>   - {this.props.points} -   </div> points
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Lead the Deal
           </Typography>

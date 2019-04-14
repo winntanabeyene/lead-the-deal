@@ -87,7 +87,7 @@ const Practice = ({currentLead, contactView, contactPurchase}) => {
             <div><strong>Verified:</strong> {verified}</div>
           </div>
                 <CardActions>
-          <Button size="small" variant="contained" color="primary" onClick={()=>contactPurchase(currentLead.id)}>
+          <Button size="small" variant="contained" color="primary" onClick={()=>contactPurchase(event, currentLead.id)}>
             Purchase This Contact
           </Button>
                 </CardActions>
