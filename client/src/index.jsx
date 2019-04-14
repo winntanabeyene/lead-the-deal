@@ -21,10 +21,7 @@ const styles = {
 };
 
 
-
-
 class App extends React.Component {
-
 
   constructor(props){
     super(props)
@@ -32,6 +29,7 @@ class App extends React.Component {
       isLoggedin: false,
       userId: null,
       redirectTo: '',
+      username: '',
       points: null
     }
     this.registerUser = this.registerUser.bind(this);
@@ -98,7 +96,8 @@ loginUser(username, password){
       console.log(res);
       this.setState({
         isLoggedin: true,
-        userId: res.id
+        userId: res.id,
+        username: res.username
       })
 
     }).catch((err) => {
@@ -123,9 +122,10 @@ logOutUser(){
 
         {this.state.isLoggedin ? 
         <div>
-          <UserHeader logOutUser={this.logOutUser} userId={this.state.userId} points={this.state.points}/>
+          <UserHeader logOutUser={this.logOutUser} userId={this.state.userId} points={this.state.points} username={this.state.username}/>
           <DashBody auth={this.Auth} 
           userId={this.state.userId} 
+          username={this.state.username}
           updatePoints={this.updatePoints} 
           getUserPoints={this.getUserPoints}
           points={this.state.points}/> 
