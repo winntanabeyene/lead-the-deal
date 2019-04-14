@@ -124,7 +124,6 @@ uploadContact(contact){
 
   this.props.auth.fetch2(`/api/users/${this.props.userId}/upload`, options)
     .then((response)=>{
-      console.log('here is the upload response', response)
       this.props.getUserPoints();
     })
     .catch((err)=>{
@@ -137,19 +136,27 @@ contactPurchase(event, contactId){
   console.log(event.target.innerHTML);
   event.target.innerHTML = 'Contact Purchased';
   event.target.style.color = 'grey';
-  //console.log(contactId)
+
+if (this.props.points > 0){
+
+  
   const options = {
     method: 'POST',
   }
   this.props.auth.fetch(`/api/users/purchase_contact/${this.props.userId}/${contactId}`, options)
-    .then((result)=>{
-      console.log('i have just purchased this contact',result)
-      this.props.getUserPoints();
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+  .then((result)=>{
+    console.log('i have just purchased this contact',result)
+    this.props.getUserPoints();
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+} else {
+  alert('You do not have enough points to complete this purchase. Please upload more contacts to obtain more points');
 }
+
+}
+
 renderContactList(){
   this.setState({renderContactList: true})
 }
