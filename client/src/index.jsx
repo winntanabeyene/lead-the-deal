@@ -115,11 +115,6 @@ logOutUser(){
   })
 }
 
-// updatePoints(){
-//   console.log('hello')
-//   this.setState({ points: this.state.points + 1})
-// }
-
 
   render(){
     return(
@@ -128,11 +123,13 @@ logOutUser(){
 
         {this.state.isLoggedin ? 
         <div>
-
-      <UserHeader logOutUser={this.logOutUser} userId={this.state.userId} points={this.state.points}/>
-      <DashBody auth={this.Auth} userId={this.state.userId} updatePoints={this.updatePoints} getUserPoints={this.getUserPoints}/> 
-    
-      <Route exact path='/dashboard' />
+          <UserHeader logOutUser={this.logOutUser} userId={this.state.userId} points={this.state.points}/>
+          <DashBody auth={this.Auth} 
+          userId={this.state.userId} 
+          updatePoints={this.updatePoints} 
+          getUserPoints={this.getUserPoints}
+          points={this.state.points}/> 
+          <Route exact path='/dashboard' />
         </div>
         : 
         <div className='intro-body' >
@@ -146,7 +143,6 @@ logOutUser(){
             render={(routeProps) => (<Login {...routeProps} Auth={this.Auth} isLoggedin={this.state.isLoggedin} loginUser={this.loginUser} />)}
             />
         </div>
-
         }
 
         
