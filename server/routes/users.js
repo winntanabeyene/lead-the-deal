@@ -45,9 +45,11 @@ router.post('/:id/upload',(req,res)=>{
 
     .then((result)=>{
       console.log(result)
+      res.send({updateduserId: result[0]});
     })
     .catch((err) => {
       console.log(err)
+      res.send(err);
     })
 })
 
@@ -137,7 +139,7 @@ router.post('/search/:id', (req, res) => {
             searchRes.position = contact.position;
             return searchRes;
           })
-          res.send(noContactInfo)
+            res.send(noContactInfo)
         })
         .catch((err) => {
           res.send(err)

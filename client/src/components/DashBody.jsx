@@ -10,6 +10,7 @@ import ContactList from './ContactList.jsx'
 import SearchView from './SearchView.jsx'
 import { withRouter } from 'react-router'
 import axios from 'axios';
+import AuthService from './AuthService.js';
 
 
 class DashBody extends React.Component {
@@ -37,12 +38,13 @@ class DashBody extends React.Component {
     this.purchasedView = this.purchasedView.bind(this);
     this.uploadContact = this.uploadContact.bind(this);
     this.contactPurchase = this.contactPurchase.bind(this);
+    this.Auth = new AuthService();
   }
 
 componentWillMount(){
  this.props.history.push('/dashboard')
  document.body.style.backgroundImage = 'none';
-
+  this.props.getUserPoints();
 }
 
 componentWillUnmount(){
@@ -94,14 +96,14 @@ selectContact(contactId, list, view){
 }
 
 searchContact(query){
-  console.log(query)
+  //console.log(query)
   const options = {
     method: 'POST',
     body: JSON.stringify(query)
   }
   this.props.auth.fetch(`/api/users/search/${this.props.userId}`, options)
     .then((contacts) => {
-      console.log(contacts)
+      console.log('im inside this contact', contacts)
       this.setState({
         searchedContacts: contacts,
         selectedView: 'searched',
@@ -113,17 +115,25 @@ searchContact(query){
 
 uploadContact(contact){
   console.log(this.props.userId)
+
   const options = {
     method: 'POST',
     body: JSON.stringify(contact)
   }
-  this.props.auth.fetch(`/api/users/${this.props.userId}/upload`, options)
-.then((result)=>{
-    this.props.updatePoints()
-})
+
+  this.props.auth.fetch2(`/api/users/${this.props.userId}/upload`, options)
+    .then((response)=>{
+      console.log('here is the upload response', response)
+      this.props.getUserPoints();
+    })
+    .catch((err)=>{
+      console.error(err);
+    })
 }
 
 contactPurchase(contactId){
+
+
   console.log(contactId)
   const options = {
     method: 'POST',
