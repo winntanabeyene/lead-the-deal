@@ -66,7 +66,7 @@ selectView(button){
 uploadedView(){
   this.props.auth.fetch(`/api/users/${this.props.userId}/uploaded_contacts`)
     .then((uploadedContacts) => {
-      console.log(uploadedContacts.data)
+      console.log(uploadedContacts)
       this.setState({ uploaded: uploadedContacts, selectedView: 'uploaded' })
     })
     .catch((err)=>{
@@ -74,7 +74,6 @@ uploadedView(){
     })
 }
 purchasedView(){
-  console.log('get logged in')
   this.props.auth.fetch(`/api/users/${this.props.userId}/purchased_contacts`)
     .then((purchasedContacts) => {
       console.log(purchasedContacts)

@@ -15,37 +15,12 @@ router.post('/:id/upload',(req,res)=>{
   let phone = upload.phone.split([' ', '-']).join('').substring(0,10)
   let lastName;
   let firstName;
+  let contactId;
   var isNum = /^\d+$/.test(phone);
   if (isNum === false){
     phone = 5555555555
   }
-  axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=${process.env.WHITEPASS}&phone=${phone}`)
-    .then((result) => {
-      if (phone === 5555555555 || !result.data.belongs_to[0]){
-        return false
-      }
-      if (result.data.belongs_to[0].lastname){
-        lastName = result.data.belongs_to[0].lastname.toLowerCase();
-      }
-      else{
-        return false
-      }
-      if (result.data.belongs_to[0].firstname){
-        firstName = result.data.belongs_to[0].firstname.toLowerCase();
-      }
-      else {
-        return false
-      }
-    const submittedName = upload.name.toLowerCase();
-    if (submittedName.includes(lastName) || submittedName.includes(firstName)){
-      return true
-    }
-    else {
-      return false
-    }
-    })
-    .then((verified)=>{
-      return db.Contact.create({
+      db.Contact.create({
         name: upload.name,
         position: upload.position,
         company: upload.company,
@@ -53,12 +28,13 @@ router.post('/:id/upload',(req,res)=>{
         phone: upload.phone,
         email: upload.email,
         Address: upload.address,
-        verified: verified,
+        verified: false,
         times_purchased: 0,
         userId: userId
       })
-    })
+
     .then((result)=>{
+      contactId = result.id
       return db.User.findOne({
         where:{
           id: userId
@@ -77,11 +53,46 @@ router.post('/:id/upload',(req,res)=>{
         }}
       )
     })
-
-
     .then((result)=>{
       console.log(result)
       res.send({updateduserId: result[0]});
+      return axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=${process.env.WHITEPASS}&phone=${phone}`)
+    })
+    .then((result) => {
+      if (phone === 5555555555 || !result.data.belongs_to[0]) {
+        return false
+      }
+      if (result.data.belongs_to[0].lastname) {
+        lastName = result.data.belongs_to[0].lastname.toLowerCase();
+      }
+      else {
+        return false
+      }
+      if (result.data.belongs_to[0].firstname) {
+        firstName = result.data.belongs_to[0].firstname.toLowerCase();
+      }
+      else {
+        return false
+      }
+      const submittedName = upload.name.toLowerCase();
+      if (submittedName.includes(lastName) || submittedName.includes(firstName)) {
+        return true
+      }
+      else {
+        return false
+      }
+    })
+    .then((verified)=>{
+      if (verified){
+        return db.Contact.update(
+          { verified: true },
+          {
+            where: {
+              id: contactId
+            }
+          }
+        )
+      }
     })
     .catch((err) => {
       console.log(err)
