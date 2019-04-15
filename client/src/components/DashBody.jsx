@@ -153,6 +153,10 @@ uploadContact(contact){
   this.props.auth.fetch2(`/api/users/${this.props.userId}/upload`, options)
     .then((response)=>{
       this.props.getUserPoints();
+      this.setState({
+        currentLead: contact,
+        contactView: 'access'
+      })
     })
     .catch((err)=>{
       console.error(err);
