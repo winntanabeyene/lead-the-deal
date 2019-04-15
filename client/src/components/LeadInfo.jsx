@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
+import moment from 'moment'
 
 
 
@@ -86,13 +87,17 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
         </div>
         <div>
           {comments.map((comment,index)=>{
+            let year = comment.date.substring(0, 4);
+            let month = comment.date.substring(5,7);
+            let day = comment.date.substring(8,10);
             return (
               <div key={index} className="comments-card">
               <Card>
                 <CardActionArea>
                   <CardContent>
                     <Typography gutterBottom variant="h6" component="h2">
-                      <div>{comment.date}</div>
+                      <div>{moment(comment.date).format('MMMM Do YYYY, h:mm a')
+                      }</div>
                     </Typography>
                     <Divider />
                     <div className="contact-info">

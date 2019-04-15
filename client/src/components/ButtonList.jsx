@@ -24,7 +24,7 @@ const ButtonList = ({selectView, uploadedView, purchasedView, renderContactList 
       <div>
       <h4>Dashboard</h4>
       </div>
-      <div onClick={()=>{uploadedView(); }}>
+      <div onClick={() => { uploadedView(); renderContactList()}}>
         <Button size="medium">
           <span className="dash-text">Uploaded Contacts</span>
         </Button>
