@@ -15,14 +15,14 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
       return (
         <div>
           {/* <Paper> */}
-          <div className="lead-header lead-row">
+          <div className="lead-header lead-row, dashboard">
             Name, Company
           </div>
           {uploaded.map((contact) => {
             return (
               <div key={contact.id}>
               <Button size="small" onClick={() => { selectContact(contact.id, 'uploaded', 'access') }}>
-                {contact.name}, {contact.company}
+                  <span id="contact-list">{contact.name}, {contact.company} </span>
               </Button>
               </div>
             )
@@ -42,15 +42,15 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
       return (
         <div>
           {/* <Paper> */}
-            <div className="lead-header lead-row">
-              Name, Company
+            <div className="lead-header lead-row, dashboard">
+            <h4> Name, Company </h4> 
           </div>
           
             {purchased.map((contact) => {
               return (
                 <div key={contact.id}>
                 <Button size="small" onClick={() => { selectContact(contact.id, 'purchased', 'access')}}>
-                  {contact.name}, {contact.company}
+                    <span id="contact-list">{contact.name}, {contact.company} </span>
                 </Button>
                 </div>
               )

@@ -61,7 +61,7 @@ class UserHeader extends React.Component {
     const { logOutUser } = this.props;
     
     return (
-      <div className={classes.root}>
+      <div className={classes.root} >
       <AppBar position="static">
         <Toolbar>
           <img src="./company_logo.png" height="60x" alt="logo"/>
@@ -69,13 +69,13 @@ class UserHeader extends React.Component {
           &emsp;
           &emsp;
           <Typography variant="h6" color="inherit" className={classes.grow}>
-              <span>@{this.props.username}, you have <span>-{this.props.points}-</span> points </span>
+              <span id="user-info">@{this.props.username}, <span>-{this.props.points}-</span> 
+                {this.props.points === 1 ? <span>  point</span> : <span> points</span> } </span>
           </Typography>
 
             <div>
-              <Button onClick={this.logOut}>Logout</Button>
+              <Button onClick={this.logOut}> <span id="user-info"> <strong>Logout</strong> </span></Button>
             </div>
-           
         </Toolbar>
       </AppBar>
     </div>

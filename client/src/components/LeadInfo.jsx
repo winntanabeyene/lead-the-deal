@@ -45,7 +45,7 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
             <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
             <div>
-              {currentLead.name} 
+                  <span id="contact-list">{currentLead.name} </span> 
               {currentLead.verified ? <span>  <img src="./checked_contact.jpg" width="20px" alt="verified icon"/></span> :
                     <span>  <img src="./unchecked_contact.jpg" width="20px" alt="unverified icon"/></span> }
             </div> 
@@ -64,32 +64,34 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
             </CardContent>
           </CardActionArea>
         </Card>
-        <Card>
-          <CardActionArea>
-            <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              <div>Notes</div>
-          </Typography>
-          <Divider/>
-              <div className="contact-info">
-                <form onSubmit={() => { handleComment(event) }}>
-                  <Input placeholder="Add new comment here" fullWidth={true} required={true}
-                  onChange={(event)=>{commentBody(event.target.value)}} value={commentBodyText}/>
-                  <div>
-                    <Input type="submit" value="Upload"/>
-                  </div>
-                </form>
-              </div>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        <div className="comments-card">
+          <Card>
+            <CardActionArea>
+              <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                <div id="concact-list">Notes</div>
+            </Typography>
+            <Divider/>
+                <div className="contact-info">
+                  <form onSubmit={() => { handleComment(event) }}>
+                    <Input placeholder="Add new comment..." fullWidth={true} required={true}
+                    onChange={(event)=>{commentBody(event.target.value)}} value={commentBodyText}/>
+                    <div>
+                      <Input type="submit" value="Submit"/>
+                    </div>
+                  </form>
+                </div>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </div>
         <div>
           {comments.map((comment,index)=>{
             let year = comment.date.substring(0, 4);
             let month = comment.date.substring(5,7);
             let day = comment.date.substring(8,10);
             return (
-              <div key={index}>
+              <div key={index} className="comments-card">
               <Card>
                 <CardActionArea>
                   <CardContent>
