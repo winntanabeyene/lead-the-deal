@@ -35,8 +35,9 @@ function DashboardHeader(props) {
       <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+            <img src="./company_logo.png" height="60x" alt="logo" />
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Lead the Deal
+            
           </Typography>
           
          { isLoggedIn ?
@@ -46,12 +47,12 @@ function DashboardHeader(props) {
          :<div>
          <Button color="inherit">
             <Link to="/register">
-              REGISTER
+             <span id="user-info"> <strong>Register</strong> </span> 
           </Link>
           </Button>
           <Button color="inherit">
           <Link to="/login">
-          LOGIN
+             <span id="user-info"> <strong>Login</strong> </span> 
           </Link>          
           </Button> 
          </div> }

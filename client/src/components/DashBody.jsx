@@ -10,6 +10,7 @@ import ContactList from './ContactList.jsx'
 import SearchView from './SearchView.jsx'
 import { withRouter } from 'react-router'
 import axios from 'axios';
+import AuthService from './AuthService.js';
 
 
 class DashBody extends React.Component {
@@ -25,7 +26,10 @@ class DashBody extends React.Component {
       contact: null,
       searchedContacts: [],
       contactView: null,
-      renderContactList: false
+      renderContactList: false,
+      commentBodyText: '',
+      comments: [{date: 'Add comments to keep track of your leads!', comment: 'The easiest place to keep track of lead data!'}],
+      username: ''
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -39,13 +43,17 @@ class DashBody extends React.Component {
     this.uploadContact = this.uploadContact.bind(this);
     this.contactPurchase = this.contactPurchase.bind(this);
     this.renderContactList = this.renderContactList.bind(this);
+    this.handleComment = this.handleComment.bind(this)
+    this.commentBody = this.commentBody.bind(this)
   }
 
 componentWillMount(){
  this.props.history.push('/dashboard')
  document.body.style.backgroundImage = 'none';
+this.props.getUserPoints();
 
 }
+
 
 componentWillUnmount(){
   document.body.style.backgroundImage = "url('./leaddeal.png')"
@@ -58,7 +66,7 @@ selectView(button){
 uploadedView(){
   this.props.auth.fetch(`/api/users/${this.props.userId}/uploaded_contacts`)
     .then((uploadedContacts) => {
-      console.log(uploadedContacts.data)
+      console.log(uploadedContacts)
       this.setState({ uploaded: uploadedContacts, selectedView: 'uploaded' })
     })
     .catch((err)=>{
@@ -66,7 +74,6 @@ uploadedView(){
     })
 }
 purchasedView(){
-  console.log('get logged in')
   this.props.auth.fetch(`/api/users/${this.props.userId}/purchased_contacts`)
     .then((purchasedContacts) => {
       console.log(purchasedContacts)
@@ -78,8 +85,24 @@ purchasedView(){
 }
 
 selectContact(contactId, list, view){
+
+
   if (view === 'access'){
     const contact = this.state[list].filter((contact)=> contact.id === contactId)[0]
+
+
+
+    this.props.auth.fetch(`/api/users/comments/${this.props.userId}/${contactId}`)
+      .then((comments) => {
+        let revComments = comments.reverse();
+        this.setState({comments: revComments})
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+
+
     this.setState({
       currentLead: contact,
       contactView: 'access'
@@ -96,14 +119,14 @@ selectContact(contactId, list, view){
 }
 
 searchContact(query){
-  console.log(query)
+  //console.log(query)
   const options = {
     method: 'POST',
     body: JSON.stringify(query)
   }
   this.props.auth.fetch(`/api/users/search/${this.props.userId}`, options)
     .then((contacts) => {
-      console.log(contacts)
+      console.log('im inside this contact', contacts)
       this.setState({
         searchedContacts: contacts,
         selectedView: 'searched',
@@ -115,29 +138,76 @@ searchContact(query){
 
 uploadContact(contact){
   console.log(this.props.userId)
+
   const options = {
     method: 'POST',
     body: JSON.stringify(contact)
   }
-  this.props.auth.fetch(`/api/users/${this.props.userId}/upload`, options)
-.then((result)=>{
-    this.props.updatePoints()
-})
+
+  this.props.auth.fetch2(`/api/users/${this.props.userId}/upload`, options)
+    .then((response)=>{
+      this.props.getUserPoints();
+    })
+    .catch((err)=>{
+      console.error(err);
+    })
 }
 
-contactPurchase(contactId){
-  console.log(contactId)
+contactPurchase(event, contactId){
+
+  console.log(event.target.innerHTML);
+ 
+
+if (this.props.points > 0){
+
+  
   const options = {
     method: 'POST',
   }
   this.props.auth.fetch(`/api/users/purchase_contact/${this.props.userId}/${contactId}`, options)
-    .then((result)=>{
-      console.log(result)
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+  .then((result)=>{
+    console.log('i have just purchased this contact',result)
+    this.props.getUserPoints();
+    // document.getElementById('purchase-button').innerHTML = 'Contact Purchased';
+    // document.getElementById('purchase-button').style.color = 'grey';
+    event.target.innerHTML = 'Contact Purchased';
+    event.target.style.color = 'grey';
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+} else {
+  alert('You do not have enough points to complete this purchase. Please upload more contacts to obtain more points');
 }
+
+}
+
+handleComment(event){
+  event.preventDefault();
+  const comment = {}
+  comment.body = this.state.commentBodyText
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(comment)
+  }
+  this.props.auth.fetch(`/api/users/comments/${this.props.userId}/${this.state.currentLead.id}`, options)
+    .then((comments) => {
+      let revComments = comments.reverse();
+      this.setState({
+        commentBodyText: '',
+        comments: revComments,
+      })
+    }).catch((err) => {
+      console.log(err)
+      this.setState({
+        commentBodyText: '',
+      })
+    });
+}
+commentBody(comment){
+  this.setState({ commentBodyText: comment })
+}
+
 renderContactList(){
   this.setState({renderContactList: true})
 }
@@ -151,7 +221,11 @@ render(){
         <Grid container spacing={24}>
           <Grid item xs>
           <div className="left-top-display">
-            <ButtonList selectView={this.selectView} uploadedView={this.uploadedView} purchasedView={this.purchasedView} renderContactList={this.renderContactList}/>
+            <ButtonList
+            selectView={this.selectView} 
+            uploadedView={this.uploadedView} 
+            purchasedView={this.purchasedView} 
+            renderContactList={this.renderContactList}/>
           </div>
   
           <div className="left-bottom-display">
@@ -165,7 +239,10 @@ render(){
           <Grid item xs={9}>
           <div>
           </div>
-            <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} contactPurchase={this.contactPurchase}/>
+            <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} 
+            contactPurchase={this.contactPurchase} commentBody={this.commentBody} 
+            handleComment={this.handleComment} comments={this.state.comments}
+            commentBodyText={this.state.commentBodyText}/>
           </Grid>
         </Grid>
       </div>

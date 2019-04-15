@@ -44,17 +44,6 @@ class UserHeader extends React.Component {
    
     this.props.history.push('/dashboard');
   
-   if (this.props.userId)
-
-   Axios.get(`/api/users/${this.props.userId}`)
-    .then((result) => {
-      console.log(result);
-      this.setState({
-        points: result.data.points
-      })
-    }).catch((err) => { 
-      console.error(err);
-    });
 
   }
 
@@ -72,18 +61,21 @@ class UserHeader extends React.Component {
     const { logOutUser } = this.props;
     
     return (
-      <div className={classes.root}>
+      <div className={classes.root} >
       <AppBar position="static">
         <Toolbar>
-          You have <div>{this.state.points}</div> points
+          <img src="./company_logo.png" height="60x" alt="logo"/>
+          &emsp;
+          &emsp;
+          &emsp;
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Lead the Deal
+              <span id="user-info">@{this.props.username}, <span>-{this.props.points}-</span> 
+                {this.props.points === 1 ? <span>  point</span> : <span> points</span> } </span>
           </Typography>
 
             <div>
-              <Button onClick={this.logOut}>Logout</Button>
+              <Button onClick={this.logOut}> <span id="user-info"> <strong>Logout</strong> </span></Button>
             </div>
-           
         </Toolbar>
       </AppBar>
     </div>

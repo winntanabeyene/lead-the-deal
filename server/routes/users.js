@@ -12,21 +12,15 @@ const axios = require('axios');
 router.post('/:id/upload',(req,res)=>{
   const userId = req.params.id
   const upload = req.body
-  const phone = upload.phone.split([' ', '-']).join('')
-  axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=9e8599a8394e472097c3086f8eebaaf2&phone=${phone}`)
-    .then((result) => {
-      const lastName = result.data.belongs_to[0].lastname.toLowerCase();
-      const firstName = result.data.belongs_to[0].firstname.toLowerCase();
-      const submittedName = upload.name.toLowerCase();
-      if (submittedName.includes(lastName) || submittedName.includes(firstName)){
-        return true
-      }
-      else {
-        return false
-      }
-    })
-    .then((verified)=>{
-      return db.Contact.create({
+  let phone = upload.phone.split([' ', '-']).join('').substring(0,10)
+  let lastName;
+  let firstName;
+  let contactId;
+  var isNum = /^\d+$/.test(phone);
+  if (isNum === false){
+    phone = 5555555555
+  }
+      db.Contact.create({
         name: upload.name,
         position: upload.position,
         company: upload.company,
@@ -34,12 +28,13 @@ router.post('/:id/upload',(req,res)=>{
         phone: upload.phone,
         email: upload.email,
         Address: upload.address,
-        verified: verified,
+        verified: false,
         times_purchased: 0,
         userId: userId
       })
-    })
+
     .then((result)=>{
+      contactId = result.id
       return db.User.findOne({
         where:{
           id: userId
@@ -58,13 +53,50 @@ router.post('/:id/upload',(req,res)=>{
         }}
       )
     })
-
-
     .then((result)=>{
       console.log(result)
+      res.send({updateduserId: result[0]});
+      return axios.get(`https://proapi.whitepages.com/3.0/phone.json?api_key=${process.env.WHITEPASS}&phone=${phone}`)
+    })
+    .then((result) => {
+      if (phone === 5555555555 || !result.data.belongs_to[0]) {
+        return false
+      }
+      if (result.data.belongs_to[0].lastname) {
+        lastName = result.data.belongs_to[0].lastname.toLowerCase();
+      }
+      else {
+        return false
+      }
+      if (result.data.belongs_to[0].firstname) {
+        firstName = result.data.belongs_to[0].firstname.toLowerCase();
+      }
+      else {
+        return false
+      }
+      const submittedName = upload.name.toLowerCase();
+      if (submittedName.includes(lastName) || submittedName.includes(firstName)) {
+        return true
+      }
+      else {
+        return false
+      }
+    })
+    .then((verified)=>{
+      if (verified){
+        return db.Contact.update(
+          { verified: true },
+          {
+            where: {
+              id: contactId
+            }
+          }
+        )
+      }
     })
     .catch((err) => {
       console.log(err)
+      res.send(err);
     })
 })
 
@@ -152,9 +184,10 @@ router.post('/search/:id', (req, res) => {
             searchRes.company = contact.company
             searchRes.industry = contact.industry;
             searchRes.position = contact.position;
+            searchRes.verified = contact.verified;
             return searchRes;
           })
-          res.send(noContactInfo)
+            res.send(noContactInfo)
         })
         .catch((err) => {
           res.send(err)
@@ -190,8 +223,66 @@ router.post(`/purchase_contact/:id/:contactId`, (req, res) => {
         }
       )
     })
-    .then((result)=>{
+    .then((modifiedId)=>{
       console.log(result)
+      res.send({modifiedId: modifiedId[0]})
+    })
+    .catch((err) => {
+      console.log(err)
+      res.send(err);
+    })
+})
+
+
+router.get(`/comments/:id/:contactId`, (req,res)=>{
+  const userId = req.params.id;
+  const contactId = req.params.contactId
+  db.Comment.findAll({
+    where:{
+      user_id: userId,
+      contact_id: contactId
+    }
+  })
+    .then((comments) => {
+      const commentData = comments.map((comment) => {
+        const data = {};
+        data.date = comment.createdAt
+        data.comment = comment.comment
+        data.commentId = comment.id
+        return data
+      })
+      res.send(commentData)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+router.post(`/comments/:id/:contactId`, (req, res) => {
+  const userId = req.params.id;
+  const contactId = req.params.contactId
+  return db.Comment.create({
+      user_id: userId,
+      contact_id: contactId,
+      comment: req.body.body
+  })
+    .then((result) => {
+      return db.Comment.findAll({
+        where: {
+          user_id: userId,
+          contact_id: contactId,
+        }
+      })
+    })
+    .then((comments)=>{
+      const commentData = comments.map((comment)=>{
+        const data = {};
+        data.date = comment.createdAt
+        data.comment = comment.comment
+        data.commentId = comment.id
+        return data
+      })
+      res.send(commentData)
     })
     .catch((err) => {
       console.log(err)
