@@ -20,28 +20,28 @@ const ButtonList = ({selectView, uploadedView, purchasedView, renderContactList 
   });
 
   return (
-    <div>
+    <div className="dashboard">
       <div>
-      <h3>Dashboard</h3>
+      <h4>Dashboard</h4>
       </div>
       <div onClick={()=>{uploadedView(); }}>
         <Button size="medium">
-          Uploaded Contacts
+          <span className="dash-text">Uploaded Contacts</span>
         </Button>
       </div>
       <div>
         <Button size="medium" onClick={() => {purchasedView(); renderContactList()}}>
-        Purchased Contacts
+          <span className="dash-text">Purchased Contacts</span>
       </Button>
       </div>
       <div>
         <Button size="medium" onClick={() => { selectView('upload'); renderContactList() }}>
-          Upload Contact
+          <span className="dash-text">Upload Contact</span>
         </Button>
       </div>
       <div>
       <Button size="medium" onClick={()=>{selectView('search'); renderContactList()}}>
-        Search for New Contacts
+          <span className="dash-text">Search Contacts</span>
       </Button>
       </div>
     </div>

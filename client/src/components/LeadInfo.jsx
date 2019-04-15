@@ -63,29 +63,31 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
             </CardContent>
           </CardActionArea>
         </Card>
-        <Card>
-          <CardActionArea>
-            <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              <div>Notes</div>
-          </Typography>
-          <Divider/>
-              <div className="contact-info">
-                <form onSubmit={() => { handleComment(event) }}>
-                  <Input placeholder="Add new comment here" fullWidth={true} required={true}
-                  onChange={(event)=>{commentBody(event.target.value)}} value={commentBodyText}/>
-                  <div>
-                    <Input type="submit" value="Upload"/>
-                  </div>
-                </form>
-              </div>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        <div className="comments-card">
+          <Card>
+            <CardActionArea>
+              <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                <div>Notes</div>
+            </Typography>
+            <Divider/>
+                <div className="contact-info">
+                  <form onSubmit={() => { handleComment(event) }}>
+                    <Input placeholder="Add new comment here" fullWidth={true} required={true}
+                    onChange={(event)=>{commentBody(event.target.value)}} value={commentBodyText}/>
+                    <div>
+                      <Input type="submit" value="Upload"/>
+                    </div>
+                  </form>
+                </div>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </div>
         <div>
           {comments.map((comment,index)=>{
             return (
-              <div key={index}>
+              <div key={index} className="comments-card">
               <Card>
                 <CardActionArea>
                   <CardContent>

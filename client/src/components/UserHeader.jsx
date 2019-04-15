@@ -69,14 +69,13 @@ class UserHeader extends React.Component {
           &emsp;
           &emsp;
           <Typography variant="h6" color="inherit" className={classes.grow}>
-              <span id="user-info">@{this.props.username}, you have <span>-{this.props.points}-</span> 
+              <span id="user-info">@{this.props.username}, <span>-{this.props.points}-</span> 
                 {this.props.points === 1 ? <span>  point</span> : <span> points</span> } </span>
           </Typography>
 
             <div>
               <Button onClick={this.logOut}> <span id="user-info"> <strong>Logout</strong> </span></Button>
             </div>
-           
         </Toolbar>
       </AppBar>
     </div>
