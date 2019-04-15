@@ -94,7 +94,7 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
                 <CardActionArea>
                   <CardContent>
                     <Typography gutterBottom variant="h6" component="h2">
-                      <div>{moment(comment.date).format('MMMM Do YYYY, h:mm:ss a')
+                      <div>{moment(comment.date).format('MMMM Do YYYY, h:mm a')
                       }</div>
                     </Typography>
                     <Divider />
