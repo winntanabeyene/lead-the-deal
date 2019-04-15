@@ -28,7 +28,7 @@ const styles = {
 
 
 
-const Practice = ({currentLead, contactView, contactPurchase, handleComment, commentBodyText, comments, commentBody}) => {
+const Practice = ({currentLead, contactView, contactPurchase, handleComment, commentBodyText, comments, commentBody, purchaseState, purchaseColor}) => {
   let verified;
   if (contactView === 'access'){
     if (currentLead.verified) {
@@ -146,8 +146,8 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
           <div id={currentLead.id}>
 
           <Button size="small" variant="contained" color="primary" onClick={()=>contactPurchase(event, currentLead.id)}>
-           <span  >
-            Purchase This Contact
+           <span style={{color: purchaseColor}}>
+            {purchaseState}
             </span>
           </Button>
                   </div>
