@@ -10,17 +10,17 @@ const host = process.env.host|| "localhost";
 const port = process.env.port || '3000'
 const dbName = process.env.dbName || 'lead_the_deal'
 
-const sequelize = new Sequelize('lead_the_deal', username, password, {
-  dialect: 'mysql',
-  host: host,
-});
-
-
-// const sequelize = new Sequelize('lead_the_deal', 'leadthedeal', process.env.AWSPASS, {
-//   host: 'leadthedeal.co5uhag2jtpo.us-east-2.rds.amazonaws.com',
-//   port: 3306,
-//   dialect: 'mysql'
+// const sequelize = new Sequelize('lead_the_deal', username, password, {
+//   dialect: 'mysql',
+//   host: host,
 // });
+
+
+const sequelize = new Sequelize('lead_the_deal', 'leadthedeal', process.env.AWSPASS, {
+  host: 'leadthedeal.co5uhag2jtpo.us-east-2.rds.amazonaws.com',
+  port: 3306,
+  dialect: 'mysql'
+});
 
 ///////////////////
 /////MODELS ///////
