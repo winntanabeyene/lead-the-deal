@@ -28,7 +28,7 @@ const styles = {
 
 
 
-const Practice = ({currentLead, contactView, contactPurchase, handleComment, commentBodyText, comments, commentBody, purchaseState, purchaseColor}) => {
+const Practice = ({currentLead, contactView, contactPurchase, handleComment, commentBodyText, comments, commentBody, purchaseState, purchaseColor, showNotes}) => {
   let verified;
   if (contactView === 'access'){
     if (currentLead.verified) {
@@ -69,17 +69,22 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
             <CardActionArea>
               <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                <div id="concact-list">Notes</div>
+                <div id="concact-list">{showNotes ? 'Notes' : 'Success!'}</div>
             </Typography>
             <Divider/>
                 <div className="contact-info">
+                  {showNotes ? 
                   <form onSubmit={() => { handleComment(event) }}>
                     <Input placeholder="Add new comment..." fullWidth={true} required={true}
-                    onChange={(event)=>{commentBody(event.target.value)}} value={commentBodyText}/>
+                      onChange={(event) => { commentBody(event.target.value) }} value={commentBodyText} />
                     <div>
-                      <Input type="submit" value="Submit"/>
+                      <Input type="submit" value="Submit" />
                     </div>
                   </form>
+                  : "This contact has been uploaded!"
+                
+              
+              }
                 </div>
               </CardContent>
             </CardActionArea>
