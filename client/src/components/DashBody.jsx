@@ -18,7 +18,6 @@ class DashBody extends React.Component {
     super(props);
     this.state = {
       // userId = null,
-      leads: [{ name: 'patrick ryan', company: 'zlien' , id: 1}, { name: 'winntana B.', company: 'Operation Spark' , id:2}, { name: 'arnulfo Man', company: 'guitar' }],
       selectedView: null,
       uploaded: [],
       purchased: [],
@@ -28,8 +27,11 @@ class DashBody extends React.Component {
       contactView: null,
       renderContactList: false,
       commentBodyText: '',
-      comments: [{date: 'Add comments to keep track of your leads!', comment: 'The easiest place to keep track of lead data!'}],
-      username: ''
+      comments: [],
+      username: '',
+      purchaseState: 'Purchase This Contact',
+      purchaseColor: 'white',
+      showNotes: true,
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -45,6 +47,7 @@ class DashBody extends React.Component {
     this.renderContactList = this.renderContactList.bind(this);
     this.handleComment = this.handleComment.bind(this)
     this.commentBody = this.commentBody.bind(this)
+    this.showModal = this.showModal.bind(this);
   }
 
 componentWillMount(){
@@ -58,6 +61,11 @@ this.props.getUserPoints();
 componentWillUnmount(){
   document.body.style.backgroundImage = "url('./leaddeal.png')"
 }
+
+showModal() {
+    console.log('modal');
+  }
+
 
 selectView(button){
   this.setState({selectedView: button})
@@ -95,7 +103,10 @@ selectContact(contactId, list, view){
     this.props.auth.fetch(`/api/users/comments/${this.props.userId}/${contactId}`)
       .then((comments) => {
         let revComments = comments.reverse();
-        this.setState({comments: revComments})
+        this.setState({
+          comments: revComments,
+          showNotes: true,
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -112,7 +123,9 @@ selectContact(contactId, list, view){
     const contact = this.state.searchedContacts.filter((contact) => contact.id === contactId)[0]
     this.setState({
       currentLead: contact,
-      contactView: 'limited'
+      contactView: 'limited',
+      purchaseState: "Purchase This Contact",
+      purchaseColor: "white"
     })
   }
 
@@ -149,7 +162,10 @@ uploadContact(contact){
       this.props.getUserPoints();
       this.setState({
         currentLead: contact,
-        contactView: 'access'
+        contactView: 'access',
+        comments: [],
+        showNotes: false,
+
       })
     })
     .catch((err)=>{
@@ -172,10 +188,13 @@ if (this.props.points > 0){
   .then((result)=>{
     console.log('i have just purchased this contact',result)
     this.props.getUserPoints();
-    // document.getElementById('purchase-button').innerHTML = 'Contact Purchased';
+    // document.getElementById('purclimitedhase-button').innerHTML = 'Contact Purchased';
     // document.getElementById('purchase-button').style.color = 'grey';
-    event.target.innerHTML = 'Contact Purchased';
-    event.target.style.color = 'grey';
+    // event.target.innerHTML = 'Contact Purchased';
+    this.setState({
+      purchaseState: "Contact Purchased",
+      purchaseColor: 'grey'
+    })
   })
   .catch((err)=>{
     console.log(err)
@@ -229,7 +248,8 @@ render(){
             selectView={this.selectView} 
             uploadedView={this.uploadedView} 
             purchasedView={this.purchasedView} 
-            renderContactList={this.renderContactList}/>
+            renderContactList={this.renderContactList}
+            showModal={this.showModal}/>
           </div>
   
           <div className="left-bottom-display">
@@ -246,7 +266,8 @@ render(){
             <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} 
             contactPurchase={this.contactPurchase} commentBody={this.commentBody} 
             handleComment={this.handleComment} comments={this.state.comments}
-            commentBodyText={this.state.commentBodyText}/>
+            commentBodyText={this.state.commentBodyText} purchaseState={this.state.purchaseState} 
+            purchaseColor={this.state.purchaseColor} showNotes={this.state.showNotes}/>
           </Grid>
         </Grid>
       </div>

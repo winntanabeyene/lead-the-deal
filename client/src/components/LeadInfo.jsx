@@ -28,7 +28,7 @@ const styles = {
 
 
 
-const Practice = ({currentLead, contactView, contactPurchase, handleComment, commentBodyText, comments, commentBody}) => {
+const Practice = ({currentLead, contactView, contactPurchase, handleComment, commentBodyText, comments, commentBody, purchaseState, purchaseColor, showNotes}) => {
   let verified;
   if (contactView === 'access'){
     if (currentLead.verified) {
@@ -69,35 +69,40 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
             <CardActionArea>
               <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                <div id="concact-list">Notes</div>
+                <div id="concact-list">{showNotes ? 'Notes' : 'Success!'}</div>
             </Typography>
             <Divider/>
                 <div className="contact-info">
+                  {showNotes ? 
                   <form onSubmit={() => { handleComment(event) }}>
                     <Input placeholder="Add new comment..." fullWidth={true} required={true}
-                    onChange={(event)=>{commentBody(event.target.value)}} value={commentBodyText}/>
+                      onChange={(event) => { commentBody(event.target.value) }} value={commentBodyText} />
                     <div>
-                      <Input type="submit" value="Submit"/>
+                      <Input type="submit" value="Submit" />
                     </div>
                   </form>
+                  : "This contact has been uploaded!"
+                
+              
+              }
                 </div>
               </CardContent>
             </CardActionArea>
           </Card>
         </div>
         <div>
-          {comments.map((comment,index)=>{
-            let year = comment.date.substring(0, 4);
-            let month = comment.date.substring(5,7);
-            let day = comment.date.substring(8,10);
+          {
+            comments.map((comment,index)=>{
+            console.log(comment)
+            let prettyDate;
+            prettyDate = moment(comment.date).format('MMMM Do YYYY, h:mm a')
             return (
               <div key={index} className="comments-card">
               <Card>
                 <CardActionArea>
                   <CardContent>
                     <Typography gutterBottom variant="h6" component="h2">
-                      <div>{moment(comment.date).format('MMMM Do YYYY, h:mm a')
-                      }</div>
+                      <div>{prettyDate}</div>
                     </Typography>
                     <Divider />
                     <div className="contact-info">
@@ -146,8 +151,8 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
           <div id={currentLead.id}>
 
           <Button size="small" variant="contained" color="primary" onClick={()=>contactPurchase(event, currentLead.id)}>
-           <span  >
-            Purchase This Contact
+           <span style={{color: purchaseColor}}>
+            {purchaseState}
             </span>
           </Button>
                   </div>
