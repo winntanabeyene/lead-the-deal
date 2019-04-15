@@ -30,7 +30,8 @@ class DashBody extends React.Component {
       comments: [],
       username: '',
       purchaseState: 'Purchase This Contact',
-      purchaseColor: 'white'
+      purchaseColor: 'white',
+      showNotes: true,
     };
     const { classes } = props;
     DashBody.propTypes = {
@@ -102,7 +103,10 @@ selectContact(contactId, list, view){
     this.props.auth.fetch(`/api/users/comments/${this.props.userId}/${contactId}`)
       .then((comments) => {
         let revComments = comments.reverse();
-        this.setState({comments: revComments})
+        this.setState({
+          comments: revComments,
+          showNotes: true,
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -158,7 +162,10 @@ uploadContact(contact){
       this.props.getUserPoints();
       this.setState({
         currentLead: contact,
-        contactView: 'access'
+        contactView: 'access',
+        comments: [],
+        showNotes: false,
+
       })
     })
     .catch((err)=>{
@@ -259,7 +266,8 @@ render(){
             <LeadInfo currentLead={this.state.currentLead} contactView={this.state.contactView} 
             contactPurchase={this.contactPurchase} commentBody={this.commentBody} 
             handleComment={this.handleComment} comments={this.state.comments}
-            commentBodyText={this.state.commentBodyText} purchaseState={this.state.purchaseState} purchaseColor={this.state.purchaseColor}/>
+            commentBodyText={this.state.commentBodyText} purchaseState={this.state.purchaseState} 
+            purchaseColor={this.state.purchaseColor} showNotes={this.state.showNotes}/>
           </Grid>
         </Grid>
       </div>
