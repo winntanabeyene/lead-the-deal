@@ -44,7 +44,7 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
             <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
             <div>
-              {currentLead.name} 
+                  <span id="contact-list">{currentLead.name} </span> 
               {currentLead.verified ? <span>  <img src="./checked_contact.jpg" width="20px" alt="verified icon"/></span> :
                     <span>  <img src="./unchecked_contact.jpg" width="20px" alt="unverified icon"/></span> }
             </div> 
@@ -68,15 +68,15 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
             <CardActionArea>
               <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                <div>Notes</div>
+                <div id="concact-list">Notes</div>
             </Typography>
             <Divider/>
                 <div className="contact-info">
                   <form onSubmit={() => { handleComment(event) }}>
-                    <Input placeholder="Add new comment here" fullWidth={true} required={true}
+                    <Input placeholder="Add new comment..." fullWidth={true} required={true}
                     onChange={(event)=>{commentBody(event.target.value)}} value={commentBodyText}/>
                     <div>
-                      <Input type="submit" value="Upload"/>
+                      <Input type="submit" value="Submit"/>
                     </div>
                   </form>
                 </div>

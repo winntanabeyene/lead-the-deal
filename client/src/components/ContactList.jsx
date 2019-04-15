@@ -51,7 +51,7 @@ const ContactList = ({uploaded, purchased, selectedView, selectContact, searchCo
               return (
                 <div key={contact.id}>
                 <Button size="small" onClick={() => { selectContact(contact.id, 'purchased', 'access')}}>
-                  {contact.name}, {contact.company}
+                    <span id="contact-list">{contact.name}, {contact.company} </span>
                 </Button>
                 </div>
               )
