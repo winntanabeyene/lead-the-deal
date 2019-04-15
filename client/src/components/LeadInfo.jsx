@@ -86,14 +86,11 @@ const Practice = ({currentLead, contactView, contactPurchase, handleComment, com
           </Card>
         </div>
         <div>
-          {comments.map((comment,index)=>{
+          {
+            comments.map((comment,index)=>{
+            console.log(comment)
             let prettyDate;
-            if (comment.date !== 'Add comments to keep track of your leads!'){
-              prettyDate = moment(comment.date).format('MMMM Do YYYY, h:mm a')
-            }
-            else{
-              prettyDate = 'Add comments to keep track of your leads!'
-            }
+            prettyDate = moment(comment.date).format('MMMM Do YYYY, h:mm a')
             return (
               <div key={index} className="comments-card">
               <Card>

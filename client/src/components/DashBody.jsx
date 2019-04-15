@@ -27,7 +27,7 @@ class DashBody extends React.Component {
       contactView: null,
       renderContactList: false,
       commentBodyText: '',
-      comments: [{date: 'Add comments to keep track of your leads!', comment: 'The easiest place to keep track of lead data!'}],
+      comments: [],
       username: '',
       purchaseState: 'Purchase This Contact',
       purchaseColor: 'white'

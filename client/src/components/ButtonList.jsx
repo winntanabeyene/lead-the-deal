@@ -66,7 +66,7 @@ constructor(props){
           Lead the deal is a Business to Business platform that serves as a marketplace for contact information. A user starts off with 10 points, which you can use to purchase contacts. 
           If you run out of points, you can upload new contacts in order to obtain more points and access any further contacts from the database.
           <h3>Uploaded Contacts</h3>
-          <p>Click to see a list of all the contacts that you have uploaded to the databse. You also have access to a notepad for each different user 
+          <p>Click to see a list of all the contacts that you have uploaded to the database. You also have access to a notepad for each different user 
             that will only be visible to you.
           </p>
           <h3>Purchased Contacts</h3>
