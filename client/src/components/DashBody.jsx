@@ -45,6 +45,7 @@ class DashBody extends React.Component {
     this.renderContactList = this.renderContactList.bind(this);
     this.handleComment = this.handleComment.bind(this)
     this.commentBody = this.commentBody.bind(this)
+    this.showModal = this.showModal.bind(this);
   }
 
 componentWillMount(){
@@ -58,6 +59,11 @@ this.props.getUserPoints();
 componentWillUnmount(){
   document.body.style.backgroundImage = "url('./leaddeal.png')"
 }
+
+showModal() {
+    console.log('modal');
+  }
+
 
 selectView(button){
   this.setState({selectedView: button})
@@ -229,7 +235,8 @@ render(){
             selectView={this.selectView} 
             uploadedView={this.uploadedView} 
             purchasedView={this.purchasedView} 
-            renderContactList={this.renderContactList}/>
+            renderContactList={this.renderContactList}
+            showModal={this.showModal}/>
           </div>
   
           <div className="left-bottom-display">

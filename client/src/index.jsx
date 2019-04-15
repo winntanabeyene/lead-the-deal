@@ -37,6 +37,7 @@ class App extends React.Component {
     this.logOutUser = this.logOutUser.bind(this);
     this.getUserPoints = this.getUserPoints.bind(this);
     this.Auth = new AuthService();
+    this.showModal = this.showModal.bind(this);
   }
 
 
@@ -53,6 +54,10 @@ componentWillMount() {
   //     })
   //   }
   }
+
+showModal(){
+  console.log('modal');
+}
 
 
 getUserPoints(){
